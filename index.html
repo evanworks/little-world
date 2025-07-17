@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Little World</title>
+    <link rel="stylesheet" href="res/styles.css">
+    <link rel="icon" href="res/img/oak.png">
+  </head>
+  <body>
+    <div class="overlay"></div>
+    <div id="inventory" style="display: none;">
+      <div id="centered">
+        <div class="inventoryContainer">
+          <img class="inventoryImg" src="res/img/woodBig.png">
+          <div id="woodNum" class="inventoryNum">NaN</div>
+        </div>
+        <div class="inventoryContainer">
+          <img class="inventoryImg" src="res/img/stoneBig.png">
+          <div id="stoneNum" class="inventoryNum">NaN</div>
+        </div>
+      </div>
+    </div>
+    <div id="crafting" style="display: none;">
+      <div id="centered-craft">
+        <div class="inventoryContainer recipe">
+          <img class="inventoryImg" src="res/img/woodPick.png">
+          <div class="resources">
+            <div class="resourceAmount"><img class="necessaryResource" src="res/img/wood.png">x10</div>
+          </div>
+        </div>
+        <div class="inventoryContainer recipe">
+          <img class="inventoryImg" src="res/img/stonePick.png">
+          <div id="resources">
+            <div class="resourceAmount"><img class="necessaryResource" src="res/img/wood.png">x5</div>
+            <div class="resourceAmount"><img class="necessaryResource" src="res/img/stone.png">x10</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="game"></div>
+    <div id="title">LITTLE WORLD</div>
+    <div id="subtitle">ANOTHER GAME BY EVAN LEE</div>
+  </body>
+  <script src="src/data.js"></script>
+  <script src="src/input.js"></script>
+  <script src="src/main.js"></script>
+  <script src="src/ui.js"></script>
+</html>
