@@ -88,11 +88,11 @@ function harvestAdjacent(tiles) {
     const index = playerIndex + offset;
     const tile = tiles[index];
     if (!tile) return;
-
     const source = tile.querySelector('.source');
     if (source) {
       const id = source.id;
       const resource = itemMap[id];
+      console.log(id)
       if (!resource) return;
 
       // Update tile visuals

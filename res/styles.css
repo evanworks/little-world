@@ -43,13 +43,16 @@ img {
 .player {
   position: absolute;
   margin-left: -25px;
+  margin-top: -6px;
 }
 .resource, .bench {
   position: absolute;
   margin-left: -25px;
+  margin-top: -6px;
 }
 .source {
   position: absolute;
+  margin-top: -6px;
 }
 
 
