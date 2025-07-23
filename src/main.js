@@ -8,7 +8,7 @@ const noise2 = new Noise(Math.random());
 
 let playerIndex = 0;
 let width = Math.floor(window.innerWidth / 25) + 2;
-let height = Math.floor(window.innerHeight / 25) + 2;
+let height = Math.floor(window.innerHeight / 25) + 3;
 
 let player;
 let bench;

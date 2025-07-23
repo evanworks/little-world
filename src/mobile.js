@@ -16,9 +16,9 @@ function doStuffMobile() {
 
   document.getElementById("game-container").style.overflow = "auto";
 
-  gameEl.addEventListener("touchstart", (event) => {
-    event.preventDefault();
-  });
+  gameEl.addEventListener("touchstart", (event) => { event.preventDefault(); });
+  document.getElementById("mobile-arrows").addEventListener("touchstart", (event) => { event.preventDefault(); });
+  document.getElementById("mobile-buttons").addEventListener("touchstart", (event) => { event.preventDefault(); });
 
   arrowButtonsMobile();
   functionButtonsMobile();

@@ -13,6 +13,8 @@ Dynamic inventory and mobile support (still very buggy)
 
 EDIT 0.0.3: Improved mobile support (bigger buttons, less touch events, and *v*i*b*r*a*t*i*o*n*)
 
+EDIT 0.0.4: Improved mobile support again and PWA certification
+
 **Jul 22, 2025 -- 0.0.1**
 
 Random terrain gen and coral (doesn't appear in inventory yet)
