@@ -46,8 +46,6 @@ function arrowButtonsMobile() {
     button.addEventListener("touchstart", (event) => {
       event.preventDefault();
       button.src = `res/img/buttons/arrow${capitalizeFirst(i)}Press.png`;
-
-      navigator.vibrate(20);
   
       playerMovement(`Arrow${capitalizeFirst(i)}`);
     });
@@ -68,8 +66,6 @@ function functionButtonsMobile() {
     event.preventDefault();
     z.src = `res/img/buttons/zPress.png`;
 
-    navigator.vibrate(20);
-
     chop();
     checkForBench();
   });
@@ -82,8 +78,6 @@ function functionButtonsMobile() {
   c.addEventListener("touchstart", (event) => {
     event.preventDefault();
     c.src = `res/img/buttons/cPress.png`;
-
-    navigator.vibrate(20);
 
     openInventory();
   });
