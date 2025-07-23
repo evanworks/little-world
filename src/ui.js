@@ -1,18 +1,36 @@
+// this whole file is such a mess
+// is there a better way to do it?
+
 function openInventory() {
+  const actualInventory = document.getElementById("centered");
+
   crafting.style.display = "none"; 
 
-  if (inventoryEl.style.display == 'none') { 
-    inventoryEl.style.display = "block"; 
-    startingResources.forEach(resource => {
-      const el = document.getElementById(`${resource.file}Num`);
-      if (el) el.innerHTML = resource.item;
-    });
-  } else { 
-    inventoryEl.style.display = "none"; 
-  }
-}
+  if (inventoryEl.style.display == 'none') inventoryEl.style.display = "block"; 
+  else inventoryEl.style.display = "none"; 
 
-// this is such a mess
+  actualInventory.innerHTML = "";
+
+  Object.entries(inventory).forEach(([key, value]) => {
+    if (value < 1 && key !== "wood") return;
+
+    const container = document.createElement("div");
+    container.classList.add("inventoryContainer");
+
+    const img = document.createElement("img");
+    img.classList.add("inventoryImg");
+    img.src = itemMap[key].inventory;
+
+    const num = document.createElement("div");
+    num.classList.add("inventoryNum");
+    num.innerHTML = value;
+
+    container.appendChild(img);
+    container.appendChild(num);
+
+    actualInventory.appendChild(container);
+  });
+}
 
 function openCrafting() {
   if (crafting.style.display == 'none') { 

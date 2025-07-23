@@ -8,41 +8,32 @@
   <body>
     <div class="overlay"></div>
     <div id="inventory" style="display: none;">
-      <div id="centered">
-        <div class="inventoryContainer">
-          <img class="inventoryImg" src="res/img/inventory/stoneBig.png">
-          <div id="woodNum" class="inventoryNum">NaN</div>
-        </div>
-        <div class="inventoryContainer">
-          <img class="inventoryImg" src="res/img/inventory/woodBig.png">
-          <div id="stoneNum" class="inventoryNum">NaN</div>
-        </div>
-      </div>
+      <div id="centered"></div>
     </div>
     <div id="crafting" style="display: none;">
-      <div id="centered-craft">
-        <div class="inventoryContainer recipe">
-          <img class="inventoryImg" src="res/img/woodPick.png">
-          <div class="resources">
-            <div class="resourceAmount"><img class="necessaryResource" src="res/img/wood.png">x10</div>
-          </div>
-        </div>
-        <div class="inventoryContainer recipe">
-          <img class="inventoryImg" src="res/img/stonePick.png">
-          <div id="resources">
-            <div class="resourceAmount"><img class="necessaryResource" src="res/img/wood.png">x5</div>
-            <div class="resourceAmount"><img class="necessaryResource" src="res/img/stone.png">x10</div>
-          </div>
-        </div>
-      </div>
+      <div id="centered-craft"></div>
     </div>
-    <div id="game"></div>
+    <div id="mobile-arrows" style="display: none;">
+      <img id="THENOTHINGIMAGE" src="res/img/buttons/THENOTHINGIMAGE.png">
+      <img id="up" src="res/img/buttons/arrowUp.png">
+      <img id="THENOTHINGIMAGE2" src="res/img/buttons/THENOTHINGIMAGE.png">
+      <div></div>
+      <img id="left" src="res/img/buttons/arrowLeft.png">
+      <img id="down" src="res/img/buttons/arrowDown.png">
+      <img id="right" src="res/img/buttons/arrowRight.png">
+    </div>
+    <div id="mobile-buttons" style="display: none;">
+      <img id="z" src="res/img/buttons/z.png">
+      <img id="c" src="res/img/buttons/c.png" style="margin-left: 4px;">
+    </div>
+    <div id="game-container"><div id="game"></div></div>
     <div id="title">LITTLE WORLD</div>
     <div id="subtitle">ANOTHER GAME BY EVAN LEE</div>
   </body>
   <script src="src/noise.js"></script>
   <script src="src/data.js"></script>
   <script src="src/input.js"></script>
+  <script src="src/mobile.js"></script>
   <script src="src/main.js"></script>
   <script src="src/ui.js"></script>
 </html>

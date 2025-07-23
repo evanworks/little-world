@@ -1,15 +1,10 @@
-const inventory = {
-  wood: 0,
-  stone: 0,
-  coral: 0,
-}
-
 const wood = {
   get item() {return inventory.wood;},
   set item(val) {inventory.wood = val;},
 
   file: 'wood',
   img: 'res/img/resource/wood.png',
+  inventory: 'res/img/inventory/wood.png',
 
   type: 'resource',
 
@@ -25,6 +20,7 @@ const stone = {
 
   file: 'stone',
   img: 'res/img/resource/stone.png',
+  inventory: 'res/img/inventory/stone.png',
 
   type: 'resource',
 
@@ -39,6 +35,7 @@ const coral = {
 
   file: 'coral',
   img: 'res/img/resource/coral.png',
+  inventory: 'res/img/inventory/coral.png',
 
   type: 'resource',
 
@@ -70,6 +67,12 @@ const crystalPick = {
   type: 'tool',
 
   ingredients: [[wood, 5], [/*crystal*/wood, 10]]
+}
+
+const inventory = {
+  wood: 0,
+  stone: 0,
+  coral: 0,
 }
 
 const itemMap = {

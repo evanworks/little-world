@@ -1,7 +1,10 @@
 let doAnim = false;
 
+let zoomScaleMobile = 2
+
 const noise = new Noise(Math.random());
 const noise2 = new Noise(Math.random());
+
 
 let playerIndex = 0;
 let width = Math.floor(window.innerWidth / 25) + 2;
@@ -137,7 +140,14 @@ async function start() {
     bench = createBench(tiles[playerIndex + 1] || tiles[playerIndex - 1]);
   }
 
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (isTouchDevice) doStuffMobile();
+
   doListeners();
 }
 
 start();
+
+function capitalizeFirst(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}

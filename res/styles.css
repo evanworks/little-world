@@ -31,6 +31,16 @@ body {
   position: absolute;
   top: 0px;
   left: 0px;
+  transform-origin: top left;
+  overflow: hidden;
+}
+
+#game-container {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 img {
@@ -111,6 +121,7 @@ img {
 .inventoryContainer {
   display: inline-block;
   width: fit-content;
+  margin-right: 10px;
 }
 * {
   user-select: none;
@@ -155,4 +166,25 @@ body {
 }
 .recipe:active {
   background: white;
+}
+
+#mobile-arrows {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 99;
+  cursor: pointer;
+}
+#mobile-arrows img, #mobile-buttons img {
+  width: 100px;
+  margin-right: 3px;
+  margin-top: 3px;
+}
+
+#mobile-buttons {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 101;
+  cursor: pointer;
 }

@@ -1,12 +1,11 @@
-function playerMovement(e, tiles, player) {
-  console.log(playerIndex)
+function playerMovement(key) {
   let x = playerIndex % width;
   let y = Math.floor(playerIndex / width);
 
-  if (e.key === 'ArrowRight' && x < width - 1) x++;
-  else if (e.key === 'ArrowLeft' && x > 0) x--;
-  else if (e.key === 'ArrowDown' && y < height - 1) y++;
-  else if (e.key === 'ArrowUp' && y > 0) y--;
+  if (key === 'ArrowRight' && x < width - 1) x++;
+  else if (key === 'ArrowLeft' && x > 0) x--;
+  else if (key === 'ArrowDown' && y < height - 1) y++;
+  else if (key === 'ArrowUp' && y > 0) y--;
 
   let newIndex = y * width + x;
 
@@ -19,6 +18,8 @@ function playerMovement(e, tiles, player) {
     tiles[newIndex].appendChild(player);
     playerIndex = newIndex;
   }
+
+  updateCameraMobile()
 }
 
 function collectResource(tiles, newIndex, player) {
@@ -38,32 +39,37 @@ function doListeners() {
     if (e.repeat) return;
 
     if (e.key === 'z') {
-      if (isChopping) return;
-      isChopping = true;
-
-      player.src = 'res/img/player/chop.gif';
-      inventoryEl.style.display = "none";
-      player.style.marginLeft = "-30px";
-
-      harvestAdjacent(tiles);
-
+      chop();
       checkForBench();
-
     } else if (e.key === 'c') {
       openInventory();
     } else {
-      playerMovement(e, tiles, player);
+      playerMovement(e.key);
     }
   });
 
   document.addEventListener('keyup', (e) => {
-    if (e.key === 'z') {
-      isChopping = false;
-      player.style.marginLeft = "-25px";
-      player.src = 'res/img/player/player.png';
-    }
+    if (e.key === 'z') stopChopping();
   });
 }
+
+function chop() {
+  if (isChopping) return;
+  isChopping = true;
+
+  player.src = 'res/img/player/chop.gif';
+  inventoryEl.style.display = "none";
+  player.style.marginLeft = "-30px";
+
+  harvestAdjacent(tiles);
+}
+
+function stopChopping() {
+  isChopping = false;
+  player.style.marginLeft = "-25px";
+  player.src = 'res/img/player/player.png';
+}
+
 
 function checkForBench() {
   const adjacentOffsets = [-1, 1, -width, width];
@@ -92,7 +98,6 @@ function harvestAdjacent(tiles) {
     if (source) {
       const id = source.id;
       const resource = itemMap[id];
-      console.log(id)
       if (!resource) return;
 
       // Update tile visuals
