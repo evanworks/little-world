@@ -170,20 +170,20 @@ body {
 
 #mobile-arrows {
   position: fixed;
-  bottom: 20px;
+  bottom: 30px;
   left: 20px;
   z-index: 99;
   cursor: pointer;
 }
 #mobile-arrows img, #mobile-buttons img {
-  width: 100px;
+  width: 140px;
   margin-right: 3px;
   margin-top: 3px;
 }
 
 #mobile-buttons {
   position: fixed;
-  bottom: 20px;
+  bottom: 30px;
   right: 20px;
   z-index: 101;
   cursor: pointer;

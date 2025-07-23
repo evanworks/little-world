@@ -7,14 +7,18 @@ function doStuffMobile() {
   inventoryEl.style.transform = `scale(${zoomScaleMobile})`;
   inventoryEl.style.width = `calc(${100/zoomScaleMobile}% + 163px)`;
   inventoryEl.children[0].style.marginLeft = `10%`;
-  inventoryEl.children[0].style.marginTop = `10%`;
+  inventoryEl.children[0].style.marginTop = `30%`;
 
   crafting.style.transform = `scale(${zoomScaleMobile})`;
   crafting.style.width = `calc(${100/zoomScaleMobile}% + 163px)`;
   crafting.children[0].style.marginLeft = `10%`;
-  crafting.children[0].style.marginTop = `10%`;
+  crafting.children[0].style.marginTop = `30%`;
 
   document.getElementById("game-container").style.overflow = "auto";
+
+  gameEl.addEventListener("touchstart", (event) => {
+    event.preventDefault();
+  });
 
   arrowButtonsMobile();
   functionButtonsMobile();
@@ -42,6 +46,8 @@ function arrowButtonsMobile() {
     button.addEventListener("touchstart", (event) => {
       event.preventDefault();
       button.src = `res/img/buttons/arrow${capitalizeFirst(i)}Press.png`;
+
+      navigator.vibrate(20);
   
       playerMovement(`Arrow${capitalizeFirst(i)}`);
     });
@@ -62,6 +68,8 @@ function functionButtonsMobile() {
     event.preventDefault();
     z.src = `res/img/buttons/zPress.png`;
 
+    navigator.vibrate(20);
+
     chop();
     checkForBench();
   });
@@ -74,6 +82,9 @@ function functionButtonsMobile() {
   c.addEventListener("touchstart", (event) => {
     event.preventDefault();
     c.src = `res/img/buttons/cPress.png`;
+
+    navigator.vibrate(20);
+
     openInventory();
   });
 
