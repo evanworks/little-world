@@ -7,12 +7,14 @@ Started as a terrain-generation test, became a weird little survival game
 
 ## Updates
 
-**Jul 24, 2025 -- 0.0.5**
+**Jul 24, 2025 -- 0.0.5-6**
 
 * Improved wood sprite
 * Added padding to the xicon
 * Fixed trees and rocks spawning on top of each other
-* added large trees (press t)
+* ~~added large trees~~
+
+EDIT 0.0.6: Reworked grid system, removed large trees
 
 
 **Jul 23, 2025 -- 0.0.2-4**
@@ -26,3 +28,8 @@ EDIT 0.0.4: Improved mobile support again and PWA certification
 **Jul 22, 2025 -- 0.0.1**
 
 Random terrain gen and coral (doesn't appear in inventory yet)
+
+
+## Known Bugs
+
+* Sometimes the middle of the ocean is a valid spawn location for the player?

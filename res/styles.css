@@ -156,18 +156,23 @@ body {
   align-items: flex-start;
   border: 7.5px solid transparent;
   border-image: url(img/border.png) 35% round;
+  
   padding-left: 5px;
   padding-top: 5px;
   padding-right: 5px;
+  border-radius: 18px;
 
   cursor: url(img/cursor.png), auto;
 }
 .recipe:hover {
-  background: rgba(0,0,0,0.5);
   border-radius: 10px;
+  border-image: url(img/border-white.png) 35% round;
 }
 .recipe:active {
-  background: white;
+  border-image: url(img/border.png) 35% round;
+}
+.recipe:active .inventoryImg{
+  border-image: url(img/border.png) 35% round;
 }
 
 #mobile-arrows {

@@ -7,12 +7,13 @@ const noise2 = new Noise(Math.random());
 
 
 let playerIndex = 0;
+let playerCoords;
 let width = Math.floor(window.innerWidth / 25) + 2;
 let height = Math.floor(window.innerHeight / 25) + 3;
 
 let player;
 let bench;
-let tiles;
+let grid = [];
 
 const plainsIndices = [];
 
@@ -33,14 +34,11 @@ async function createGrid(width, height, imgUrl) {
 
   const scale = 0.1;
 
-  // first pass
-
   for (let y = 0; y < height; y++) {
+    grid.push([])
     for (let x = 0; x < width; x++) {
+      grid[y].push({})
       if (doAnim) { await new Promise(resolve => setTimeout(resolve, 0)) }
-
-      tiles = Array.from(containerEl.children);
-
 
       const elevation = noise.perlin2(x * scale, y * scale);
       
@@ -49,31 +47,40 @@ async function createGrid(width, height, imgUrl) {
       img.classList.add('tile');
       img.src = imgUrl;
 
+      grid[y][x].blocked = false;
+
       if (elevation < -0.3) {
         img.src = 'res/img/world/water.png';
+        grid[y][x].ground = "water";
+        grid[y][x].blocked = true;
+
         cell.classList.add("blocked");
       } else if (elevation < -0.2) {
         img.src = 'res/img/world/sand.png';
+        grid[y][x].ground = "sand";
         maybeSpawn(x, y, cell, coral);
+        
       } else if (elevation < 0.2) {
         img.src = 'res/img/world/grass.png';
+        grid[y][x].ground = "grass";
         maybeSpawn(x, y, cell, stone);
         maybeSpawn(x, y, cell, wood, undefined, wood.plainsSpawnChance);
 
-        if (x > 0 && y > 0 && x < width - 3 && y < height - 3) {
-          plainsIndices.push(y * width + x);
+        if (x > 0 && y > 0 && x < width - 7 && y < height - 7) {
+          plainsIndices.push([y,x]);
         }
       } else if (elevation < 1) {
         img.src = 'res/img/world/grass.png';
+        grid[y][x].ground = "grass";
         maybeSpawn(x, y, cell, wood, undefined, wood.forestSpawnChance);
       }
-      
+      grid[y][x].tile = cell;
 
       cell.appendChild(img)
       containerEl.appendChild(cell)
     } 
   }
-
+  // failed attempt at large trees :(
   /*for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       if (Math.random() > 0.9) placeMultiTile(x, y, x*width+y, wood.sources.oak);
@@ -96,107 +103,64 @@ function maybeSpawn(x, y, cell, resource, source = Object.entries(resource.sourc
     cell.classList.add("blocked");
 
     cell.appendChild(poiimg);
+
+    grid[y][x].resource = resource;
+    grid[y][x].source = poiimg;
+    grid[y][x].isSource = true;
+    grid[y][x].blocked = true;
+    
   }
 }
 
-document.addEventListener("keydown", (e) => {
-  if (e.key === "t") {
-    placeMultiTile(player.x, player.y, playerIndex, wood.sources.oak);
-  }
-});
-
-
-function placeMultiTile(x, y, index, resource) {
-  const anchorTile = tiles[index];
-  const img = document.createElement("img");
-  img.src = resource.sourceImg;
-  img.classList.add("tile");
-  img.style.width = `${25 * resource.width}px`;
-  img.style.height = `${25 * resource.height}px`;
-  img.style.position = "absolute";
-  img.style.zIndex = 5;
-  img.style.pointerEvents = "none";
-
-  if (anchorTile)
-    anchorTile.appendChild(img);
-
-  for (let dy = 0; dy < resource.height; dy++) {
-    console.log(dy + "dy")
-    for (let dx = 0; dx < resource.width; dx++) {
-      console.log(dx + "dx")
-      const i = (y + dy) * width + (x + 1 + dx);
-      if (tiles[i].classList.contains("blocked")) {
-        // slightly old-fashioned
-        tiles[i].innerHTML = `<img class="tile" src="res/img/world/grass.png">`;
-      }
-      
-      tiles[i].classList.add("blocked");
-      tiles[i].classList.add("branch");
-    }
-  }
-
-  anchorTile.classList.add("anchor");
-}
-
-
-
-
-
-
-function spawnStartingSources(cell) {
-  for (j in startingResources) {
-    let resource = startingResources[j];
-    if (noise2 < resource.spawnChance) {
-      if (!cell.classList.contains("blocked")) {
-        const poiimg = document.createElement('img');
-        poiimg.classList.add('source');
-        poiimg.classList.add(resource.sourceClass);
-        poiimg.src = resource.sourceImg;
-        poiimg.id = resource.file;
-  
-        cell.classList.add("blocked");
-        cell.appendChild(poiimg)
-      }
-    }
-  }
-}
- 
-function createPlayer(tile) {
+function createPlayer(x, y) {
   const player = document.createElement('img');
   player.classList.add('player');
   player.src = 'res/img/player/player.png';
+  
+  const tile = grid[y][x].tile;
+  tile.appendChild(player);
+  playerCoords = [x, y];
 
-  tile.appendChild(player)
   return player;
 }
-function createBench(tile) {
+function createBench(x, y) {
   const bench = document.createElement('img');
   bench.classList.add('bench');
   bench.src = 'res/img/world/bench.png';
-  tile.classList.add("blocked");
 
+  const tile = grid[y][x].tile;
+  tile.classList.add("blocked");
   tile.appendChild(bench);
+
+  grid[y][x].blocked = true;
+  grid[y][x].bench = true;
+
   return bench;
 }
 
 async function start() {
   await createGrid(width, height, 'res/img/world/grass.png');
 
-  tiles = Array.from(containerEl.children);
-
   if (plainsIndices.length > 0) {
-    playerIndex = plainsIndices[Math.floor(Math.random() * plainsIndices.length)];
-    player = createPlayer(tiles[playerIndex]);
+    // i think there's something wrong with this
+    // i had to boost the tile padding on the screen to get it to not throw an error
+    let [spawnX, spawnY] = plainsIndices[Math.floor(Math.random() * plainsIndices.length)];
+    player = createPlayer(spawnX, spawnY);
 
-    const benchIndex = tiles[playerIndex + 1] && !tiles[playerIndex + 1].classList.contains("blocked")
-      ? playerIndex + 1
-      : playerIndex - 1;
-    bench = createBench(tiles[benchIndex]);
+    let benchX = spawnX + 1;
+    if (grid[spawnY][benchX]) {
+      if (grid[spawnY][benchX].blocked) {
+        benchX = spawnX - 1;
+      }
+      bench = createBench(benchX, spawnY);
+    } else {
+      location.reload();
+    } 
   } else {
-    console.warn("No safe plains tile found. Spawning randomly.");
-    playerIndex = Math.floor(Math.random() * tiles.length);
-    player = createPlayer(tiles[playerIndex]);
-    bench = createBench(tiles[playerIndex + 1] || tiles[playerIndex - 1]);
+    console.warn("uh ohhhhhh");
+    let [spawnX, spawnY] = plainsIndices[Math.floor(Math.random() * grid.length)];
+    player = createPlayer(spawnX, spawnY);
+    bench = createBench(spawnX + 1, spawnY);
   }
 
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;

@@ -66,9 +66,11 @@ function openCrafting() {
       resourceImg.src = resourceInQuestion.img;
 
       const resourceTxt = document.createElement('span');
-      resourceTxt.innerHTML = item.ingredients[j][1];
       if (resourceInQuestion.item < item.ingredients[j][1]) {
-        resourceTxt.style.color = "#c0c0c0";
+        resourceTxt.style.color = "red";
+        resourceTxt.innerHTML = resourceInQuestion.item + "/" + item.ingredients[j][1];
+      } else {
+        resourceTxt.innerHTML = item.ingredients[j][1];
       }
 
       resource.appendChild(resourceImg);
