@@ -7,7 +7,15 @@ Started as a terrain-generation test, became a weird little survival game
 
 ## Updates
 
-**Jul 23, 2025 -- 0.0.2**
+**Jul 24, 2025 -- 0.0.5**
+
+* Improved wood sprite
+* Added padding to the xicon
+* Fixed trees and rocks spawning on top of each other
+* added large trees (press t)
+
+
+**Jul 23, 2025 -- 0.0.2-4**
 
 Dynamic inventory and mobile support (still very buggy)
 

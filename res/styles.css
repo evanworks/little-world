@@ -64,7 +64,9 @@ img {
   position: absolute;
   margin-top: -6px;
 }
-
+.oak {
+  width: 50px;
+}
 
 #title {
   text-align: center;

@@ -10,8 +10,19 @@ const wood = {
 
   plainsSpawnChance: 0.1,
   forestSpawnChance: 0.7,
-  sourceImg: 'res/img/world/tree.png',
-  sourceClass: 'tree'
+  oakSpawnChance: 0.1,
+  sources: {
+    tree: {
+      sourceImg: 'res/img/world/tree.png',
+      sourceClass: 'tree'
+    },
+    oak: {
+      sourceImg: 'res/img/world/oak.png',
+      sourceClass: 'oak',
+      width: 2, height: 2,
+    }
+  }
+  
 }
 
 const stone = {
@@ -25,8 +36,12 @@ const stone = {
   type: 'resource',
 
   spawnChance: 0.05,
-  sourceImg: 'res/img/world/rock.png',
-  sourceClass: 'rock'
+  sources: {
+    rock: {
+      sourceImg: 'res/img/world/rock.png',
+      sourceClass: 'rock'
+    }
+  }
 }
 
 const coral = {
@@ -40,8 +55,12 @@ const coral = {
   type: 'resource',
 
   spawnChance: 0.1,
-  sourceImg: 'res/img/world/coral.png',
-  sourceClass: 'coral'
+  sources: {
+    coral: {
+      sourceImg: 'res/img/world/coral.png',
+      sourceClass: 'coral'
+    }
+  }
 }
 
 const woodPick = {
