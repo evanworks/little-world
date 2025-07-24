@@ -11,6 +11,7 @@ const wood = {
   plainsSpawnChance: 0.1,
   forestSpawnChance: 0.7,
   oakSpawnChance: 0.1,
+  deadSpawnChance: 0.01,
   sources: {
     tree: {
       sourceImg: 'res/img/world/tree.png',
@@ -20,6 +21,10 @@ const wood = {
       sourceImg: 'res/img/world/oak.png',
       sourceClass: 'oak',
       width: 2, height: 2,
+    },
+    dead: {
+      sourceImg: 'res/img/world/deadTree.png',
+      sourceClass: 'deadTree'
     }
   }
   

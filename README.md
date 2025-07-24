@@ -16,6 +16,8 @@ Started as a terrain-generation test, became a weird little survival game
 
 EDIT 0.0.6: Reworked grid system, removed large trees
 
+EDIT 0.0.7: Added buglist to README, fixed some bugs (player spawning), added dead trees
+
 
 **Jul 23, 2025 -- 0.0.2-4**
 
@@ -32,4 +34,7 @@ Random terrain gen and coral (doesn't appear in inventory yet)
 
 ## Known Bugs
 
-* Sometimes the middle of the ocean is a valid spawn location for the player?
+* ~~Crafting bench can spawn on top of a rock~~
+* ~~Opening crafting menu while walking causes it to stay open FOREVER~~
+* ~~Game crashes when player is spawned in certain locations~~
+* ~~Sometimes the middle of the ocean is a valid spawn location for the player?~~

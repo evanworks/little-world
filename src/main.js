@@ -66,12 +66,13 @@ async function createGrid(width, height, imgUrl) {
         maybeSpawn(x, y, cell, stone);
         maybeSpawn(x, y, cell, wood, undefined, wood.plainsSpawnChance);
 
-        if (x > 0 && y > 0 && x < width - 7 && y < height - 7) {
+        if (x > 0 && y > 0 && x < width - 3 && y < height - 3) { 
           plainsIndices.push([y,x]);
         }
       } else if (elevation < 1) {
         img.src = 'res/img/world/grass.png';
         grid[y][x].ground = "grass";
+        maybeSpawn(x, y, cell, wood, wood.sources.dead, wood.deadSpawnChance);
         maybeSpawn(x, y, cell, wood, undefined, wood.forestSpawnChance);
       }
       grid[y][x].tile = cell;
@@ -116,7 +117,12 @@ function createPlayer(x, y) {
   const player = document.createElement('img');
   player.classList.add('player');
   player.src = 'res/img/player/player.png';
-  
+
+  if (grid[y][x].source) {
+    grid[y][x].source.remove();
+    grid[y][x].blocked = false;
+  }
+
   const tile = grid[y][x].tile;
   tile.appendChild(player);
   playerCoords = [x, y];
@@ -142,9 +148,11 @@ async function start() {
   await createGrid(width, height, 'res/img/world/grass.png');
 
   if (plainsIndices.length > 0) {
-    // i think there's something wrong with this
-    // i had to boost the tile padding on the screen to get it to not throw an error
-    let [spawnX, spawnY] = plainsIndices[Math.floor(Math.random() * plainsIndices.length)];
+    let spawn = plainsIndices[Math.floor(Math.random() * plainsIndices.length)];
+
+    let spawnX = spawn[1];
+    let spawnY = spawn[0];
+    
     player = createPlayer(spawnX, spawnY);
 
     let benchX = spawnX + 1;

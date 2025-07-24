@@ -43,9 +43,9 @@ function doListeners() {
     } else if (e.key === 'c') {
       openInventory();
     } else if (e.key === 'x') {
-      checkForBench();
+      crafting.style.display = "none"; 
     } else {
-      playerMovement(e.key);
+      if (crafting.style.display == "none") playerMovement(e.key);
     }
   });
 
@@ -74,11 +74,11 @@ function stopChopping() {
 
 function checkForBench() {
   const adjacentOffsets = [[0,1],[0,-1],[1,0],[-1,0]];
-
+  
   for (let offset of adjacentOffsets) {
     const index = [playerCoords[0]-offset[0],playerCoords[1]-offset[1]];
     const tile = grid[index[1]][index[0]];
-
+    
     if (tile && tile.bench) {
       player.src = 'res/img/player/player.png';
       player.style.marginLeft = "-25px";
