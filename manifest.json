@@ -1,6 +1,6 @@
 {
   "name": "Little World",
-  "short_name": "LittleWorld",
+  "short_name": "Little World",
   "start_url": ".",
   "display": "standalone",
   "icons": [

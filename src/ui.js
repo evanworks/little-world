@@ -1,6 +1,8 @@
 // this whole file is such a mess
 // is there a better way to do it?
 
+// no
+
 function openInventory() {
   const actualInventory = document.getElementById("centered");
 

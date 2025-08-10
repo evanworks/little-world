@@ -37,11 +37,19 @@ async function createGrid(width, height, imgUrl) {
   for (let y = 0; y < height; y++) {
     grid.push([])
     for (let x = 0; x < width; x++) {
-      grid[y].push({})
+      grid[y].push({
+        blocked: false,
+        ground: "who knows",
+        tile: undefined,
+        resource: undefined,
+        resourceEl: undefined,
+        hits: undefined,
+        kind: "",
+      })
       if (doAnim) { await new Promise(resolve => setTimeout(resolve, 0)) }
 
       const elevation = noise.perlin2(x * scale, y * scale);
-      
+
       const cell = document.createElement('div');
       const img = document.createElement('img');
       img.classList.add('tile');
@@ -106,9 +114,10 @@ function maybeSpawn(x, y, cell, resource, source = Object.entries(resource.sourc
     cell.appendChild(poiimg);
 
     grid[y][x].resource = resource;
-    grid[y][x].source = poiimg;
-    grid[y][x].isSource = true;
+    grid[y][x].resourceEl = poiimg;
+    grid[y][x].kind = "source";
     grid[y][x].blocked = true;
+    grid[y][x].hits = source.hits;
     
   }
 }
@@ -118,8 +127,8 @@ function createPlayer(x, y) {
   player.classList.add('player');
   player.src = 'res/img/player/player.png';
 
-  if (grid[y][x].source) {
-    grid[y][x].source.remove();
+  if (grid[y][x].resourceEl) {
+    grid[y][x].resourceEl.remove();
     grid[y][x].blocked = false;
   }
 
@@ -139,7 +148,7 @@ function createBench(x, y) {
   tile.appendChild(bench);
 
   grid[y][x].blocked = true;
-  grid[y][x].bench = true;
+  grid[y][x].kind = "bench";
 
   return bench;
 }

@@ -11,20 +11,22 @@ const wood = {
   plainsSpawnChance: 0.1,
   forestSpawnChance: 0.7,
   oakSpawnChance: 0.1,
-  deadSpawnChance: 0.01,
+  deadSpawnChance: 0.03,
   sources: {
     tree: {
       sourceImg: 'res/img/world/tree.png',
-      sourceClass: 'tree'
+      sourceClass: 'tree',
+      hits: 4
     },
-    oak: {
+    /*oak: {
       sourceImg: 'res/img/world/oak.png',
       sourceClass: 'oak',
       width: 2, height: 2,
-    },
+    },*/
     dead: {
       sourceImg: 'res/img/world/deadTree.png',
-      sourceClass: 'deadTree'
+      sourceClass: 'deadTree',
+      hits: 3
     }
   }
   
@@ -44,7 +46,8 @@ const stone = {
   sources: {
     rock: {
       sourceImg: 'res/img/world/rock.png',
-      sourceClass: 'rock'
+      sourceClass: 'rock',
+      hits: 7
     }
   }
 }
@@ -63,7 +66,8 @@ const coral = {
   sources: {
     coral: {
       sourceImg: 'res/img/world/coral.png',
-      sourceClass: 'coral'
+      sourceClass: 'coral',
+      hits: 2
     }
   }
 }
@@ -91,6 +95,14 @@ const crystalPick = {
   type: 'tool',
 
   ingredients: [[wood, 5], [/*crystal*/wood, 10]]
+}
+const plank = {
+  file: 'plank',
+  img: 'res/img/inventory/plank.png',
+
+  type: 'structure',
+
+  ingredients: [[wood, 5]]
 }
 
 const inventory = {

@@ -9,7 +9,7 @@ function playerMovement(key) {
   else if (key === 'ArrowUp' && y > 0) y--;
 
   if (!grid[y][x].blocked) {
-    if (grid[y][x].isResource) {
+    if (grid[y][x].kind == "resource") {
       collectResource([x, y]);
     }
 
@@ -28,17 +28,23 @@ function collectResource(coords) {
     player.src = 'res/img/player/player.png';
   }, 300)
 
-  const el = tile.source;
+  const el = tile.resourceEl;
   el.remove();
+
   if (tile.resource) tile.resource.item++;
+  tile.kind = "";
+  tile.resource = undefined;
 }
+
+let chopInterval;
 
 function doListeners() {
   document.addEventListener('keydown', (e) => {
-    if (e.repeat) return;
-
     if (e.key === 'z') {
-      chop();
+      if (!chopInterval) {
+        chop();
+        chopInterval = setInterval(chop, 500);
+      }
       checkForBench();
     } else if (e.key === 'c') {
       openInventory();
@@ -50,13 +56,16 @@ function doListeners() {
   });
 
   document.addEventListener('keyup', (e) => {
-    if (e.key === 'z') stopChopping();
+    if (e.key === 'z') {
+      stopChopping();
+      clearInterval(chopInterval);
+      chopInterval = null;
+    }
   });
 }
 
 function chop() {
-  if (isChopping) return;
-  isChopping = true;
+  console.log("chop");
 
   player.src = 'res/img/player/chop.gif';
   inventoryEl.style.display = "none";
@@ -79,7 +88,7 @@ function checkForBench() {
     const index = [playerCoords[0]-offset[0],playerCoords[1]-offset[1]];
     const tile = grid[index[1]][index[0]];
     
-    if (tile && tile.bench) {
+    if (tile && tile.kind == "bench") {
       player.src = 'res/img/player/player.png';
       player.style.marginLeft = "-25px";
       openCrafting();
@@ -90,37 +99,53 @@ function checkForBench() {
 
 function harvestAdjacent() {
   const adjacentOffsets = [[0,1],[0,-1],[1,0],[-1,0]];
-  let harvested = false;
 
   adjacentOffsets.forEach(offset => {
     const index = [playerCoords[0]-offset[0],playerCoords[1]-offset[1]];
     const tile = grid[index[1]][index[0]];
     if (!tile) return;
 
-    if (tile.isSource) {
+    if (tile.kind == "source") {
       let resource = tile.resource;
       if (!resource) return;
 
-      // Update tile visuals
-      tile.tile.classList.remove('blocked');
-      tile.blocked = false;
-      const el = tile.source;
-      el.remove();
-      tile.isSource = false;
-      tile.isResource = true;
+      if (tile.hits > 1) {
+        if (offset[0]==0&&offset[1]==1) { // top
+          tile.resourceEl.style.marginTop = "-8px";
+          setTimeout(() => { tile.resourceEl.style.marginTop = "-6px"; }, 200)
+        }
+        console.log(offset)
+        if (offset[0]==0&&offset[1]==-1) { // bottom 
+          tile.resourceEl.style.marginTop = "-4px";
+          setTimeout(() => { tile.resourceEl.style.marginTop = "-6px"; }, 200)
+        }
+        if (offset[0]==1&&offset[1]==0) { // left 
+          tile.resourceEl.style.marginLeft = "-2px";
+          setTimeout(() => { tile.resourceEl.style.marginLeft = "0px"; }, 200)
+        }
+        if (offset[0]==-1&&offset[1]==0) { // right 
+          tile.resourceEl.style.marginLeft = "2px";
+          setTimeout(() => { tile.resourceEl.style.marginLeft = "0px"; }, 200)
+        }
 
-      // Add dropped item
-      const drop = document.createElement('img');
-      drop.src = resource.img;
-      drop.id = resource.file;
-      drop.classList.add('resource');
-      tile.source = drop;
+        tile.hits--;
+      } else {
+        // destruction
+        tile.tile.classList.remove('blocked');
+        tile.blocked = false;
+        const el = tile.resourceEl;
+        el.remove();
+        tile.kind = "resource";
 
-      tile.tile.appendChild(drop);
+        const drop = document.createElement('img');
+        drop.src = resource.img;
+        drop.id = resource.file;
+        drop.classList.add('resource');
+        tile.resourceEl = drop;
 
-      harvested = true;
+        tile.tile.appendChild(drop);
+        tile.hits = undefined;
+      }
     }
   });
-
-  return harvested;
 }

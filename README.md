@@ -7,14 +7,25 @@ Started as a terrain-generation test, became a weird little survival game
 
 ## Updates
 
-**Jul 24, 2025 -- 0.0.5-6**
+**Jul 25, 2025 -- 0.0.8**
+
+Fun fact: I have a youtube channel now
+
+* Tweaked dead tree spawn chance
+* Fixed tiny bug that was actually a gamebreaking item duplication glitch
+* Changed chopping logic
+* refactoring :)
+
+**Jul 24, 2025 -- 0.0.5-7**
+
+Fun fact: it's a mobile app if you wish hard enough
 
 * Improved wood sprite
 * Added padding to the xicon
 * Fixed trees and rocks spawning on top of each other
 * ~~added large trees~~
 
-EDIT 0.0.6: Reworked grid system, removed large trees
+EDIT 0.0.6: Reworked grid system, removed large trees (sorry!!)
 
 EDIT 0.0.7: Added buglist to README, fixed some bugs (player spawning), added dead trees
 
@@ -34,7 +45,9 @@ Random terrain gen and coral (doesn't appear in inventory yet)
 
 ## Known Bugs
 
-* ~~Crafting bench can spawn on top of a rock~~
+* ~~Pickup animation plays on tiles where a resource is already collected~~
+* Pressing CMD plays the pickup animation for some reason???
+* Crafting bench can spawn on top of a rock
 * ~~Opening crafting menu while walking causes it to stay open FOREVER~~
 * ~~Game crashes when player is spawned in certain locations~~
 * ~~Sometimes the middle of the ocean is a valid spawn location for the player?~~
