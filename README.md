@@ -7,7 +7,14 @@ Started as a terrain-generation test, became a weird little survival game
 
 ## Updates
 
-**Jul 25, 2025 -- 0.0.8**
+**Aug 11, 2025 -- 0.0.9**
+
+Fun fact: lag
+
+* Moved the files around for fun
+* Made chopping look better
+
+**Aug 10, 2025 -- 0.0.8**
 
 Fun fact: I have a youtube channel now
 
@@ -46,7 +53,7 @@ Random terrain gen and coral (doesn't appear in inventory yet)
 ## Known Bugs
 
 * ~~Pickup animation plays on tiles where a resource is already collected~~
-* Pressing CMD plays the pickup animation for some reason???
+* ~~Pressing CMD plays the pickup animation for some reason???~~
 * Crafting bench can spawn on top of a rock
 * ~~Opening crafting menu while walking causes it to stay open FOREVER~~
 * ~~Game crashes when player is spawned in certain locations~~

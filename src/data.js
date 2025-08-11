@@ -3,8 +3,8 @@ const wood = {
   set item(val) {inventory.wood = val;},
 
   file: 'wood',
-  img: 'res/img/resource/wood.png',
-  inventory: 'res/img/inventory/wood.png',
+  img: 'res/img/resource/wood/wood.png',
+  inventory: 'res/img/resource/wood/woodInv.png',
 
   type: 'resource',
 
@@ -12,9 +12,11 @@ const wood = {
   forestSpawnChance: 0.7,
   oakSpawnChance: 0.1,
   deadSpawnChance: 0.03,
+
   sources: {
     tree: {
-      sourceImg: 'res/img/world/tree.png',
+      sourceImg: 'res/img/resource/wood/tree.png',
+      hitImg: 'res/img/resource/wood/treeHit.png',
       sourceClass: 'tree',
       hits: 4
     },
@@ -24,7 +26,8 @@ const wood = {
       width: 2, height: 2,
     },*/
     dead: {
-      sourceImg: 'res/img/world/deadTree.png',
+      sourceImg: 'res/img/resource/wood/deadTree.png',
+      hitImg: 'res/img/resource/wood/deadTreeHit.png',
       sourceClass: 'deadTree',
       hits: 3
     }
@@ -37,15 +40,16 @@ const stone = {
   set item(val) {inventory.stone = val;},
 
   file: 'stone',
-  img: 'res/img/resource/stone.png',
-  inventory: 'res/img/inventory/stone.png',
+  img: 'res/img/resource/stone/stone.png',
+  inventory: 'res/img/resource/stone/stoneInv.png',
 
   type: 'resource',
 
   spawnChance: 0.05,
   sources: {
     rock: {
-      sourceImg: 'res/img/world/rock.png',
+      sourceImg: 'res/img/resource/stone/rock.png',
+      hitImg: 'res/img/resource/stone/rockHit.png',
       sourceClass: 'rock',
       hits: 7
     }
@@ -57,15 +61,16 @@ const coral = {
   set item(val) {inventory.coral = val;},
 
   file: 'coral',
-  img: 'res/img/resource/coral.png',
-  inventory: 'res/img/inventory/coral.png',
+  img: 'res/img/resource/coral/coral.png',
+  inventory: 'res/img/resource/coral/coralInv.png',
 
   type: 'resource',
 
   spawnChance: 0.1,
   sources: {
     coral: {
-      sourceImg: 'res/img/world/coral.png',
+      sourceImg: 'res/img/resource/coral/buriedCoral.png',
+      hitImg: 'res/img/resource/coral/buriedCoralHit.png',
       sourceClass: 'coral',
       hits: 2
     }
@@ -104,6 +109,7 @@ const plank = {
 
   ingredients: [[wood, 5]]
 }
+
 
 const inventory = {
   wood: 0,

@@ -46,6 +46,7 @@ function doListeners() {
         chopInterval = setInterval(chop, 500);
       }
       checkForBench();
+      inventoryEl.style.display = "none";
     } else if (e.key === 'c') {
       openInventory();
     } else if (e.key === 'x') {
@@ -65,13 +66,14 @@ function doListeners() {
 }
 
 function chop() {
-  console.log("chop");
-
-  player.src = 'res/img/player/chop.gif';
-  inventoryEl.style.display = "none";
-  player.style.marginLeft = "-30px";
-
-  harvestAdjacent();
+  let flip = harvestAdjacent();
+  if (flip) {
+    player.style.marginLeft = "-20px";
+    player.src = 'res/img/player/chopRight.gif';
+  } else {
+    player.style.marginLeft = "-30px";
+    player.src = 'res/img/player/chopLeft.gif';
+  }
 }
 
 function stopChopping() {
@@ -98,6 +100,8 @@ function checkForBench() {
 }
 
 function harvestAdjacent() {
+  let flip = false;
+
   const adjacentOffsets = [[0,1],[0,-1],[1,0],[-1,0]];
 
   adjacentOffsets.forEach(offset => {
@@ -114,7 +118,6 @@ function harvestAdjacent() {
           tile.resourceEl.style.marginTop = "-8px";
           setTimeout(() => { tile.resourceEl.style.marginTop = "-6px"; }, 200)
         }
-        console.log(offset)
         if (offset[0]==0&&offset[1]==-1) { // bottom 
           tile.resourceEl.style.marginTop = "-4px";
           setTimeout(() => { tile.resourceEl.style.marginTop = "-6px"; }, 200)
@@ -127,7 +130,8 @@ function harvestAdjacent() {
           tile.resourceEl.style.marginLeft = "2px";
           setTimeout(() => { tile.resourceEl.style.marginLeft = "0px"; }, 200)
         }
-
+        tile.resourceEl.src = tile.chosenSource.hitImg;
+        setTimeout(() => { tile.resourceEl.src = tile.chosenSource.sourceImg}, 200)
         tile.hits--;
       } else {
         // destruction
@@ -146,6 +150,10 @@ function harvestAdjacent() {
         tile.tile.appendChild(drop);
         tile.hits = undefined;
       }
+    } else if (tile.kind !== "source" && offset[0]==1 && offset[1]==0) {
+      flip = true;
     }
   });
+
+  return flip;
 }

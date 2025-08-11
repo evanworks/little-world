@@ -21,7 +21,7 @@ let isChopping = false;
 
 let startingResources = [wood, stone];
 
-let craftableItems = [woodPick, stonePick];
+let craftableItems = [plank];
 
 const containerEl = document.getElementById("game");
 const inventoryEl = document.getElementById("inventory");
@@ -42,10 +42,11 @@ async function createGrid(width, height, imgUrl) {
         ground: "who knows",
         tile: undefined,
         resource: undefined,
+        chosenSource: undefined,
         resourceEl: undefined,
         hits: undefined,
         kind: "",
-      })
+      });
       if (doAnim) { await new Promise(resolve => setTimeout(resolve, 0)) }
 
       const elevation = noise.perlin2(x * scale, y * scale);
@@ -118,6 +119,7 @@ function maybeSpawn(x, y, cell, resource, source = Object.entries(resource.sourc
     grid[y][x].kind = "source";
     grid[y][x].blocked = true;
     grid[y][x].hits = source.hits;
+    grid[y][x].chosenSource = source;
     
   }
 }
