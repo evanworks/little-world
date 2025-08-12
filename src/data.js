@@ -7,6 +7,7 @@ const wood = {
   inventory: 'res/img/resource/wood/woodInv.png',
 
   type: 'resource',
+  useAction: 'drop',
 
   plainsSpawnChance: 0.1,
   forestSpawnChance: 0.7,
@@ -44,6 +45,7 @@ const stone = {
   inventory: 'res/img/resource/stone/stoneInv.png',
 
   type: 'resource',
+  useAction: 'drop',
 
   spawnChance: 0.05,
   sources: {
@@ -65,6 +67,7 @@ const coral = {
   inventory: 'res/img/resource/coral/coralInv.png',
 
   type: 'resource',
+  useAction: 'drop',
 
   spawnChance: 0.1,
   sources: {
@@ -75,6 +78,18 @@ const coral = {
       hits: 2
     }
   }
+}
+const plank = {
+  get item() {return inventory.plank;},
+  set item(val) {inventory.plank = val;},
+  
+  file: 'plank',
+  inventory: 'res/img/structure/plank/plankInv.png',
+  useAction: 'place',
+
+  type: 'structure',
+
+  ingredients: [[wood, 5]]
 }
 
 const woodPick = {
@@ -101,26 +116,17 @@ const crystalPick = {
 
   ingredients: [[wood, 5], [/*crystal*/wood, 10]]
 }
-const plank = {
-  file: 'plank',
-  img: 'res/img/inventory/plank.png',
-
-  type: 'structure',
-
-  ingredients: [[wood, 5]]
-}
-
 
 const inventory = {
   wood: 0,
   stone: 0,
   coral: 0,
+  plank: 0
 }
 
 const itemMap = {
   wood,
   stone,
   coral,
-  woodPick,
-  stonePick
+  plank
 };

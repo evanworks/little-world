@@ -104,6 +104,9 @@ img {
   border: 7.5px solid transparent;
   border-image: url(img/border-white.png) 35% round;
 }
+.inventoryImg:active {
+  border-image: url(img/border.png) 35% round;
+}
 .inventoryNum {
   display: inline-block;
   font-family: 'Jersey 10';

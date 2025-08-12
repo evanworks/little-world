@@ -18,6 +18,7 @@ function openInventory() {
 
     const container = document.createElement("div");
     container.classList.add("inventoryContainer");
+    container.onclick = (() => { useItem(itemMap[key]); })
 
     const img = document.createElement("img");
     img.classList.add("inventoryImg");
@@ -50,10 +51,11 @@ function openCrafting() {
     const idk = document.createElement('div');
     idk.classList.add("inventoryContainer");
     idk.classList.add("recipe");
+    idk.onclick = () => { craftItem(item) }
 
     const img = document.createElement('img');
     img.classList.add("inventoryImg");
-    img.src = item.img;
+    img.src = item.inventory;
 
     const resources = document.createElement('div');
     resources.classList.add('resources');

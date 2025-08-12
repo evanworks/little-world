@@ -7,12 +7,14 @@ Started as a terrain-generation test, became a weird little survival game
 
 ## Updates
 
-**Aug 11, 2025 -- 0.0.9**
+**Aug 11, 2025 -- 0.0.9-10**
 
 Fun fact: lag
 
 * Moved the files around for fun
 * Made chopping look better
+
+EDIT 0.0.10: Added crafting and dropping
 
 **Aug 10, 2025 -- 0.0.8**
 

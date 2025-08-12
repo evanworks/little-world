@@ -139,15 +139,7 @@ function harvestAdjacent() {
         tile.blocked = false;
         const el = tile.resourceEl;
         el.remove();
-        tile.kind = "resource";
-
-        const drop = document.createElement('img');
-        drop.src = resource.img;
-        drop.id = resource.file;
-        drop.classList.add('resource');
-        tile.resourceEl = drop;
-
-        tile.tile.appendChild(drop);
+        drop(tile, resource);
         tile.hits = undefined;
       }
     } else if (tile.kind !== "source" && offset[0]==1 && offset[1]==0) {
