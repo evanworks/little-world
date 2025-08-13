@@ -7,6 +7,14 @@ Started as a terrain-generation test, became a weird little survival game
 
 ## Updates
 
+**Aug 12, 2025 -- 0.0.11**
+
+Fun fact: I'm running out of fun facts
+
+* Fixed mobile (sorry)
+* title screen
+* that's totally it i promise
+
 **Aug 11, 2025 -- 0.0.9-10**
 
 Fun fact: lag

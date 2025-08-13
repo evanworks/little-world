@@ -59,8 +59,6 @@ function doListeners() {
   document.addEventListener('keyup', (e) => {
     if (e.key === 'z') {
       stopChopping();
-      clearInterval(chopInterval);
-      chopInterval = null;
     }
   });
 }
@@ -80,6 +78,9 @@ function stopChopping() {
   isChopping = false;
   player.style.marginLeft = "-25px";
   player.src = 'res/img/player/player.png';
+
+  clearInterval(chopInterval);
+  chopInterval = null;
 }
 
 

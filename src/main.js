@@ -1,5 +1,7 @@
 let doAnim = false;
 
+let dev = "very true";
+
 let zoomScaleMobile = 2
 
 const noise = new Noise(Math.random());
@@ -26,6 +28,8 @@ let craftableItems = [plank];
 const containerEl = document.getElementById("game");
 const inventoryEl = document.getElementById("inventory");
 const crafting = document.getElementById("crafting");
+const spotlight = document.getElementById("spotlight");
+
 
 async function createGrid(width, height, imgUrl) {
   containerEl.style.display = 'grid';
@@ -158,6 +162,9 @@ function createBench(x, y) {
 async function start() {
   await createGrid(width, height, 'res/img/world/grass.png');
 
+  if (dev == "very true") document.getElementById("debug").style.display = "block";
+}
+function begin() {
   if (plainsIndices.length > 0) {
     let spawn = plainsIndices[Math.floor(Math.random() * plainsIndices.length)];
 
@@ -186,10 +193,51 @@ async function start() {
   if (isTouchDevice) doStuffMobile();
 
   doListeners();
+
+  document.getElementById("title-bg").style.display = "none";
 }
 
 start();
 
 function capitalizeFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+
+
+
+
+
+
+const konamiCode = [
+  'ArrowUp', 'ArrowUp',
+  'ArrowDown', 'ArrowDown',
+  'ArrowLeft', 'ArrowRight',
+  'ArrowLeft', 'ArrowRight',
+  'b', 'a'
+];
+
+let position = 0;
+
+document.addEventListener('keydown', (e) => {
+  if (e.key.toLowerCase() === konamiCode[position].toLowerCase()) {
+    position++;
+    if (position === konamiCode.length) {
+      if (dev) document.getElementById("debug").style.display = "block";
+      position = 0;
+    }
+  } else {
+    position = 0;
+  }
+});
+
+function debug(are) {
+  if (are == "more") {
+    let resource = prompt("please enter resource name");
+    if (itemMap[resource]) {
+      let amount = prompt("are?");
+      itemMap[resource].item += parseInt(amount);
+      alert("you're welcome");
+    }
+  } 
 }

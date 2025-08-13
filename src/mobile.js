@@ -66,8 +66,13 @@ function functionButtonsMobile() {
     event.preventDefault();
     z.src = `res/img/buttons/zPress.png`;
 
-    chop();
+    if (!chopInterval) {
+      chop();
+      chopInterval = setInterval(chop, 500);
+    }
+
     checkForBench();
+    inventoryEl.style.display = "none";
   });
 
   z.addEventListener("touchend", () => { 

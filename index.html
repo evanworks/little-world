@@ -7,7 +7,17 @@
     <link rel="manifest" href="manifest.json" />
   </head>
   <body>
+    <div id="debug" style="display: none;">
+      <div style="color:black;background: white; padding-bottom:2px;padding-left:2px;padding-top:2px;font-size:8px;">debug ;)</div>
+      <button class="debug" onclick="debug('more')" style="margin-top: 2px;"><u>more</u></button>
+    </div>
     <div class="overlay"></div>
+    <div id="title-bg">
+      <div id="title">
+        <img id="title-img" src="res/img/title.png">
+        <div id="play" onclick="begin();">BEGIN</div>
+      </div>
+    </div>
     <div id="inventory" style="display: none;">
       <div id="centered"></div>
     </div>
@@ -28,8 +38,6 @@
       <img id="c" src="res/img/buttons/c.png" style="margin-left: 4px;">
     </div>
     <div id="game-container"><div id="game"></div></div>
-    <div id="title">LITTLE WORLD</div>
-    <div id="subtitle">ANOTHER GAME BY EVAN LEE</div>
   </body>
   <script src="src/noise.js"></script>
   <script src="src/data.js"></script>

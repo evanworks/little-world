@@ -31,6 +31,7 @@ function useItem(item) {
     if (grid[playerY][dropX]) if (grid[playerY][dropX].blocked) return;
 
     drop(grid[playerY][dropX], item);
+    document.getElementById("inventoryEl").style.display = "none";
   }
 }
 
