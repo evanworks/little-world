@@ -1,6 +1,6 @@
 let doAnim = false;
 
-let dev = "very true";
+let dev = false;
 
 let zoomScaleMobile = 2
 
