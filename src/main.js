@@ -1,6 +1,6 @@
 let doAnim = false;
 
-let dev = false;
+let dev = "very true";
 
 let zoomScaleMobile = 2
 
@@ -10,6 +10,8 @@ const noise2 = new Noise(Math.random());
 
 let playerIndex = 0;
 let playerCoords;
+let building = false; 
+
 let width = Math.floor(window.innerWidth / 25) + 2;
 let height = Math.floor(window.innerHeight / 25) + 3;
 
@@ -43,7 +45,7 @@ async function createGrid(width, height, imgUrl) {
     for (let x = 0; x < width; x++) {
       grid[y].push({
         blocked: false,
-        ground: "who knows",
+        ground: undefined,
         tile: undefined,
         resource: undefined,
         chosenSource: undefined,
@@ -64,18 +66,18 @@ async function createGrid(width, height, imgUrl) {
 
       if (elevation < -0.3) {
         img.src = 'res/img/world/water.png';
-        grid[y][x].ground = "water";
+        grid[y][x].ground = img;
         grid[y][x].blocked = true;
 
         cell.classList.add("blocked");
       } else if (elevation < -0.2) {
         img.src = 'res/img/world/sand.png';
-        grid[y][x].ground = "sand";
+        grid[y][x].ground = img;
         maybeSpawn(x, y, cell, coral);
         
       } else if (elevation < 0.2) {
         img.src = 'res/img/world/grass.png';
-        grid[y][x].ground = "grass";
+        grid[y][x].ground = img;
         maybeSpawn(x, y, cell, stone);
         maybeSpawn(x, y, cell, wood, undefined, wood.plainsSpawnChance);
 
@@ -84,7 +86,7 @@ async function createGrid(width, height, imgUrl) {
         }
       } else if (elevation < 1) {
         img.src = 'res/img/world/grass.png';
-        grid[y][x].ground = "grass";
+        grid[y][x].ground = img;
         maybeSpawn(x, y, cell, wood, wood.sources.dead, wood.deadSpawnChance);
         maybeSpawn(x, y, cell, wood, undefined, wood.forestSpawnChance);
       }
@@ -108,24 +110,26 @@ function maybeSpawn(x, y, cell, resource, source = Object.entries(resource.sourc
   const elevation = noise2.perlin2(x * scale, y * scale);
 
   if (elevation < chance && Math.random() < chance && !cell.classList.contains("blocked")) {
-    const poiimg = document.createElement('img');
-    poiimg.classList.add('source');
-    poiimg.classList.add(source.sourceClass);
-    poiimg.src = source.sourceImg;
-    poiimg.id = resource.file;
-
-    cell.classList.add("blocked");
-
-    cell.appendChild(poiimg);
-
-    grid[y][x].resource = resource;
-    grid[y][x].resourceEl = poiimg;
-    grid[y][x].kind = "source";
-    grid[y][x].blocked = true;
-    grid[y][x].hits = source.hits;
-    grid[y][x].chosenSource = source;
-    
+    createSource(resource, source, x, y, cell);
   }
+}
+function createSource(resource, source, x, y, cell) {
+  const poiimg = document.createElement('img');
+  poiimg.classList.add('source');
+  poiimg.classList.add(source.sourceClass);
+  poiimg.src = source.sourceImg;
+  poiimg.id = resource.file;
+
+  cell.classList.add("blocked");
+
+  cell.insertBefore(poiimg, cell.firstChild);
+
+  grid[y][x].resource = resource;
+  grid[y][x].resourceEl = poiimg;
+  grid[y][x].kind = "source";
+  grid[y][x].blocked = true;
+  grid[y][x].hits = source.hits;
+  grid[y][x].chosenSource = source;
 }
 
 function createPlayer(x, y) {
@@ -239,5 +243,7 @@ function debug(are) {
       itemMap[resource].item += parseInt(amount);
       alert("you're welcome");
     }
-  } 
+  } else if (are == "build") {
+    buildMode(plank, false);
+  }
 }

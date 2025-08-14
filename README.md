@@ -7,6 +7,12 @@ Started as a terrain-generation test, became a weird little survival game
 
 ## Updates
 
+**Aug 13, 2025 -- 0.0.12**
+
+* New frameworks or something
+* Made dropping actually work (no more free stuff)
+* sort of added building
+
 **Aug 12, 2025 -- 0.0.11**
 
 Fun fact: I'm running out of fun facts

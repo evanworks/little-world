@@ -13,8 +13,16 @@ function playerMovement(key) {
       collectResource([x, y]);
     }
 
+    if (building) {
+      clearTile();
+    }
+
     grid[y][x].tile.appendChild(player);
     playerCoords = [x, y];
+
+    if (building) {
+      buildMode(building, false);
+    }
   }
 
   updateCameraMobile()
@@ -41,16 +49,22 @@ let chopInterval;
 function doListeners() {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'z') {
-      if (!chopInterval) {
-        chop();
-        chopInterval = setInterval(chop, 500);
+      if (building) {
+        buildMode(building, true)
+      } else {
+        if (!chopInterval) {
+          chop();
+          chopInterval = setInterval(chop, 500);
+        }
+        checkForBench();
+        inventoryEl.style.display = "none";
       }
-      checkForBench();
-      inventoryEl.style.display = "none";
     } else if (e.key === 'c') {
       openInventory();
     } else if (e.key === 'x') {
       crafting.style.display = "none"; 
+      inventoryEl.style.display = "none"; 
+      leaveBuildMode();
     } else {
       if (crafting.style.display == "none") playerMovement(e.key);
     }

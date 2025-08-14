@@ -85,11 +85,20 @@ const plank = {
   
   file: 'plank',
   inventory: 'res/img/structure/plank/plankInv.png',
-  useAction: 'place',
 
   type: 'structure',
+  useAction: 'build',
 
-  ingredients: [[wood, 5]]
+  ingredients: [[wood, 5]],
+
+  sources: {
+    block: { // idk what to call this?!?
+      sourceImg: 'res/img/structure/plank/block.png',
+      hitImg: '',
+      sourceClass: 'block',
+      hits: 7
+    }
+  }
 }
 
 const woodPick = {
