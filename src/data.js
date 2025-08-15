@@ -101,6 +101,28 @@ const plank = {
     }
   }
 }
+const masonry = {
+  get item() {return inventory.masonry;},
+  set item(val) {inventory.masonry = val;},
+  
+  file: 'masonry',
+  inventory: 'res/img/structure/masonry/masonryInv.png',
+
+  type: 'structure',
+  useAction: 'build',
+
+  ingredients: [[stone, 3]],
+  drop: [stone],
+
+  sources: {
+    block: {
+      sourceImg: 'res/img/structure/masonry/masonry.png',
+      hitImg: 'res/img/structure/masonry/masonryHit.png',
+      sourceClass: 'block',
+      hits: 7
+    }
+  }
+}
 
 const woodPick = {
   file: 'woodPick',
@@ -131,12 +153,14 @@ const inventory = {
   wood: 0,
   stone: 0,
   coral: 0,
-  plank: 1
+  plank: 0,
+  masonry: 0
 }
 
 const itemMap = {
   wood,
   stone,
   coral,
-  plank
+  plank,
+  masonry
 };

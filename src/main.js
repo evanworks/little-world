@@ -1,6 +1,6 @@
 let doAnim = false;
 
-let dev = "very true";
+let dev = false;
 
 let zoomScaleMobile = 2
 
@@ -25,7 +25,7 @@ let isChopping = false;
 
 let startingResources = [wood, stone];
 
-let craftableItems = [plank];
+let craftableItems = [plank, masonry];
 
 const containerEl = document.getElementById("game");
 const inventoryEl = document.getElementById("inventory");

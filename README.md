@@ -4,16 +4,25 @@ Started as a terrain-generation test, became a weird little survival game
 
 *NOTE:* does not work sometimes
 
+## Todo
+
+* Actually update buglist
+* Make sources capable of dropping other resources
+* Add a way to change picking direction while building
+* Add an image directory to all of the objects (res/img/.../...)
+* Add tutorial / controls
 
 ## Updates
 
-**Aug 14, 2025 -- 0.0.13**
+**Aug 14, 2025 -- 0.0.13-14**
 
 * Fixed title screen on mobile 
 * Didn't fix title screen on mobile and instead crashed out
 * Made building less buggy (I think?)
 * Made building work on mobile
 * feesh
+
+EDIT 0.0.14: Fixed starting with a plank, added masonry (it's placeholder art don't worry)
 
 **Aug 13, 2025 -- 0.0.12**
 
@@ -76,6 +85,7 @@ Random terrain gen and coral (doesn't appear in inventory yet)
 
 ## Known Bugs
 
+* Destroying plank or masonry creates a magically pointless undefined tile
 * ~~Pickup animation plays on tiles where a resource is already collected~~
 * ~~Pressing CMD plays the pickup animation for some reason???~~
 * Crafting bench can spawn on top of a rock
