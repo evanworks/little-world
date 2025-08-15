@@ -19,7 +19,7 @@ function craftItem(item) {
 
 function useItem(item) {
   if (item.item < 1) return;
-  
+
   let playerX = playerCoords[0];
   let playerY = playerCoords[1];
 
@@ -57,9 +57,14 @@ function drop(tile, resource) {
 
 
 function buildMode(item, build) {
+  clearTile();
+
   building = item;
 
-  if (item.item < 1) leaveBuildMode();
+  if (item.item < 1) { 
+    leaveBuildMode(); 
+    return; 
+  }
 
   let playerX = playerCoords[0];
   let playerY = playerCoords[1];
@@ -70,8 +75,6 @@ function buildMode(item, build) {
     if (tile.blocked) return;
 
     if (build) {
-      console.log(tile.tile);
-      clearTile();
       createSource(item, Object.values(item.sources)[0], playerX + 1, playerY, tile.tile);
       item.item--;
     } else {

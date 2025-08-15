@@ -7,6 +7,14 @@ Started as a terrain-generation test, became a weird little survival game
 
 ## Updates
 
+**Aug 14, 2025 -- 0.0.13**
+
+* Fixed title screen on mobile 
+* Didn't fix title screen on mobile and instead crashed out
+* Made building less buggy (I think?)
+* Made building work on mobile
+* feesh
+
 **Aug 13, 2025 -- 0.0.12**
 
 * New frameworks or something

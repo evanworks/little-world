@@ -95,6 +95,13 @@ img {
     width: 400px;
   }
 }
+@media (max-width: 450px) {
+  #title-img {
+    margin-top: 60%;
+    width: 300px;
+  }
+}
+
 
 #play {
   position: relative;

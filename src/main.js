@@ -1,6 +1,6 @@
 let doAnim = false;
 
-let dev = false;
+let dev = "very true";
 
 let zoomScaleMobile = 2
 
@@ -66,6 +66,7 @@ async function createGrid(width, height, imgUrl) {
 
       if (elevation < -0.3) {
         img.src = 'res/img/world/water.png';
+        if (Math.random() > 0.97) img.src = 'res/img/world/feesh.png';
         grid[y][x].ground = img;
         grid[y][x].blocked = true;
 

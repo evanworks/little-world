@@ -1,4 +1,5 @@
 function doStuffMobile() {
+
   const gameEl = document.getElementById('game');
   gameEl.style.transformOrigin = 'top left';
   gameEl.style.transform = `scale(${zoomScaleMobile})`;
@@ -60,24 +61,41 @@ function functionButtonsMobile() {
   document.getElementById("mobile-buttons").style.display = "block";
 
   const z = document.getElementById("z");
+  const x = document.getElementById("x");
   const c = document.getElementById("c");
 
   z.addEventListener("touchstart", (event) => {
     event.preventDefault();
     z.src = `res/img/buttons/zPress.png`;
 
-    if (!chopInterval) {
-      chop();
-      chopInterval = setInterval(chop, 500);
+    if (building) {
+      buildMode(building, true)
+    } else {
+      if (!chopInterval) {
+        chop();
+        chopInterval = setInterval(chop, 500);
+      }
+      checkForBench();
+      inventoryEl.style.display = "none";
     }
-
-    checkForBench();
-    inventoryEl.style.display = "none";
   });
 
   z.addEventListener("touchend", () => { 
     z.src = `res/img/buttons/z.png`; 
     stopChopping();
+  });
+
+  x.addEventListener("touchstart", (event) => {
+    event.preventDefault();
+    x.src = `res/img/buttons/xPress.png`;
+
+    crafting.style.display = "none"; 
+    inventoryEl.style.display = "none"; 
+    leaveBuildMode();
+  });
+
+  x.addEventListener("touchend", () => { 
+    x.src = `res/img/buttons/x.png`; 
   });
 
   c.addEventListener("touchstart", (event) => {

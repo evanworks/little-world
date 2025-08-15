@@ -90,11 +90,12 @@ const plank = {
   useAction: 'build',
 
   ingredients: [[wood, 5]],
+  drop: [wood],
 
   sources: {
     block: { // idk what to call this?!?
       sourceImg: 'res/img/structure/plank/block.png',
-      hitImg: '',
+      hitImg: 'res/img/structure/plank/blockHit.png',
       sourceClass: 'block',
       hits: 7
     }
@@ -130,7 +131,7 @@ const inventory = {
   wood: 0,
   stone: 0,
   coral: 0,
-  plank: 0
+  plank: 1
 }
 
 const itemMap = {

@@ -13,9 +13,7 @@ function playerMovement(key) {
       collectResource([x, y]);
     }
 
-    if (building) {
-      clearTile();
-    }
+    clearTile();
 
     grid[y][x].tile.appendChild(player);
     playerCoords = [x, y];
