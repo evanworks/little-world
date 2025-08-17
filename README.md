@@ -7,12 +7,22 @@ Started as a terrain-generation test, became a weird little survival game
 ## Todo
 
 * Actually update buglist
-* Make sources capable of dropping other resources
+* ~~Make sources capable of dropping other resources~~
 * Add a way to change picking direction while building
 * Add an image directory to all of the objects (res/img/.../...)
 * Add tutorial / controls
 
 ## Updates
+
+**Aug 17, 2025 -- 0.0.15**
+
+Fun fact: I add a lot of random stuff to the files
+
+* made masonry look better
+* fixed getting stuck on corners of the map
+* somehow fixed chopping on corners of the map??
+* made plank and masonry drop wood and stone
+* removed unnecessary code
 
 **Aug 14, 2025 -- 0.0.13-14**
 
@@ -22,7 +32,7 @@ Started as a terrain-generation test, became a weird little survival game
 * Made building work on mobile
 * feesh
 
-EDIT 0.0.14: Fixed starting with a plank, added masonry (it's placeholder art don't worry)
+EDIT 0.0.14: Fixed starting with a plank, added masonry
 
 **Aug 13, 2025 -- 0.0.12**
 

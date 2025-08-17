@@ -1,6 +1,6 @@
 let doAnim = false;
 
-let dev = false;
+let dev = "very true";
 
 let zoomScaleMobile = 2
 
@@ -69,8 +69,6 @@ async function createGrid(width, height, imgUrl) {
         if (Math.random() > 0.97) img.src = 'res/img/world/feesh.png';
         grid[y][x].ground = img;
         grid[y][x].blocked = true;
-
-        cell.classList.add("blocked");
       } else if (elevation < -0.2) {
         img.src = 'res/img/world/sand.png';
         grid[y][x].ground = img;
@@ -110,18 +108,15 @@ function maybeSpawn(x, y, cell, resource, source = Object.entries(resource.sourc
   const scale = 0.1;
   const elevation = noise2.perlin2(x * scale, y * scale);
 
-  if (elevation < chance && Math.random() < chance && !cell.classList.contains("blocked")) {
+  if (elevation < chance && Math.random() < chance && !cell.blocked) {
     createSource(resource, source, x, y, cell);
   }
 }
 function createSource(resource, source, x, y, cell) {
   const poiimg = document.createElement('img');
   poiimg.classList.add('source');
-  poiimg.classList.add(source.sourceClass);
   poiimg.src = source.sourceImg;
   poiimg.id = resource.file;
-
-  cell.classList.add("blocked");
 
   cell.insertBefore(poiimg, cell.firstChild);
 
@@ -155,7 +150,6 @@ function createBench(x, y) {
   bench.src = 'res/img/world/bench.png';
 
   const tile = grid[y][x].tile;
-  tile.classList.add("blocked");
   tile.appendChild(bench);
 
   grid[y][x].blocked = true;

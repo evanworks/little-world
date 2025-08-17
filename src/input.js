@@ -118,12 +118,27 @@ function harvestAdjacent() {
   const adjacentOffsets = [[0,1],[0,-1],[1,0],[-1,0]];
 
   adjacentOffsets.forEach(offset => {
-    const index = [playerCoords[0]-offset[0],playerCoords[1]-offset[1]];
-    const tile = grid[index[1]][index[0]];
+    const [px, py] = playerCoords;
+    const [ox, oy] = offset;
+    const tx = px - ox;
+    const ty = py - oy;
+
+    let tile;
+
+    if (ty >= 0 && ty < grid.length && tx >= 0 && tx < grid[ty].length) {
+      tile = grid[ty][tx];
+    } else {
+      return;
+    }
+
     if (!tile) return;
 
     if (tile.kind == "source") {
       let resource = tile.resource;
+      if (tile.resource.drop) resource = tile.resource.drop;
+
+      console.log(resource);
+      
       if (!resource) return;
 
       if (tile.hits > 1) {
@@ -148,7 +163,6 @@ function harvestAdjacent() {
         tile.hits--;
       } else {
         // destruction
-        tile.tile.classList.remove('blocked');
         tile.blocked = false;
         const el = tile.resourceEl;
         el.remove();

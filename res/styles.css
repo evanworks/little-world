@@ -50,12 +50,7 @@ img {
 .tile {
   margin-top: -6px;
 }
-.player {
-  position: absolute;
-  margin-left: -25px;
-  margin-top: -6px;
-}
-.resource, .bench {
+.resource, .bench, .player {
   position: absolute;
   margin-left: -25px;
   margin-top: -6px;

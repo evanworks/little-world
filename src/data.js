@@ -89,8 +89,8 @@ const plank = {
   type: 'structure',
   useAction: 'build',
 
-  ingredients: [[wood, 5]],
-  drop: [wood],
+  ingredients: [[wood, 4]],
+  drop: wood,
 
   sources: {
     block: { // idk what to call this?!?
@@ -111,15 +111,15 @@ const masonry = {
   type: 'structure',
   useAction: 'build',
 
-  ingredients: [[stone, 3]],
-  drop: [stone],
+  ingredients: [[stone, 2]],
+  drop: stone,
 
   sources: {
     block: {
       sourceImg: 'res/img/structure/masonry/masonry.png',
       hitImg: 'res/img/structure/masonry/masonryHit.png',
       sourceClass: 'block',
-      hits: 7
+      hits: 11
     }
   }
 }
