@@ -2,16 +2,16 @@ function doStuffMobile() {
 
   const gameEl = document.getElementById('game');
   gameEl.style.transformOrigin = 'top left';
-  gameEl.style.transform = `scale(${zoomScaleMobile})`;
+  gameEl.style.transform = `scale(${zoomScale})`;
   gameEl.style.cursor = "auto";
 
-  inventoryEl.style.transform = `scale(${zoomScaleMobile})`;
-  inventoryEl.style.width = `calc(${100/zoomScaleMobile}% + 163px)`;
+  inventoryEl.style.transform = `scale(${zoomScale})`;
+  inventoryEl.style.width = `calc(${100/zoomScale}% + 163px)`;
   inventoryEl.children[0].style.marginLeft = `10%`;
   inventoryEl.children[0].style.marginTop = `30%`;
 
-  crafting.style.transform = `scale(${zoomScaleMobile})`;
-  crafting.style.width = `calc(${100/zoomScaleMobile}% + 163px)`;
+  crafting.style.transform = `scale(${zoomScale})`;
+  crafting.style.width = `calc(${100/zoomScale}% + 163px)`;
   crafting.children[0].style.marginLeft = `10%`;
   crafting.children[0].style.marginTop = `30%`;
 
@@ -24,17 +24,17 @@ function doStuffMobile() {
   arrowButtonsMobile();
   functionButtonsMobile();
 
-  updateCameraMobile();
+  updateCamera();
 }
 
 
-function updateCameraMobile() {
+function updateCamera() {
   const container = document.getElementById('game-container');
   const playerX = player.offsetLeft;
   const playerY = player.offsetTop;
 
-  container.scrollLeft = playerX * zoomScaleMobile - container.clientWidth / 2;
-  container.scrollTop = playerY * zoomScaleMobile - container.clientHeight / 2;
+  container.scrollLeft = playerX * zoomScale - container.clientWidth / 2;
+  container.scrollTop = playerY * zoomScale - container.clientHeight / 2;
 }
 
 function arrowButtonsMobile() {

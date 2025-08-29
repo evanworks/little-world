@@ -23,7 +23,7 @@ function playerMovement(key) {
     }
   }
 
-  updateCameraMobile()
+  updateCamera();
 }
 
 function collectResource(coords) {
@@ -58,7 +58,12 @@ function doListeners() {
         inventoryEl.style.display = "none";
       }
     } else if (e.key === 'c') {
-      openInventory();
+      if (building) {
+        clearTile();
+        toggleBuildingDirection();
+      } else {
+        openInventory();
+      }
     } else if (e.key === 'x') {
       crafting.style.display = "none"; 
       inventoryEl.style.display = "none"; 

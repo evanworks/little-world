@@ -69,24 +69,64 @@ function buildMode(item, build) {
   let playerX = playerCoords[0];
   let playerY = playerCoords[1];
 
-  let tile = grid[playerY][playerX + 1];
+  let buildX = playerX;
+  let buildY = playerY;
+  
+  let tile;
+  if (buildingDirection == "right") { 
+    tile = grid[playerY][playerX + 1]; 
+    buildX += 1;
+  } else if ( buildingDirection == "down") { 
+    tile = grid[playerY + 1][playerX]; 
+    buildY += 1;
+  } else if (buildingDirection == "left") { 
+    tile = grid[playerY][playerX - 1];
+    buildX -= 1;
+  } else if (buildingDirection == "up") { 
+    tile = grid[playerY - 1][playerX]; 
+    buildY -= 1;
+  }
 
   if (tile) {
     if (tile.blocked) return;
 
     if (build) {
-      createSource(item, Object.values(item.sources)[0], playerX + 1, playerY, tile.tile);
+      createSource(item, Object.values(item.sources)[0], buildX, buildY, tile.tile, item.walkable);
       item.item--;
     } else {
       tile.ground.classList.add("selected");
     }
   }
 }
+function toggleBuildingDirection() {
+  if (buildingDirection == "right") {
+    buildingDirection = "down";
+  } else if (buildingDirection == "down") {
+    buildingDirection = "left";
+  } else if (buildingDirection == "left") {
+    buildingDirection = "up";
+  } else if (buildingDirection == "up") {
+    buildingDirection = "right";
+  }
+  buildMode(building, false);
+}
+
 function leaveBuildMode() {
   clearTile();
   building = false;
 }
 function clearTile() {
-  let tile = grid[playerCoords[1]][playerCoords[0] + 1];
-  tile.ground.classList.remove("selected");
+  let tile;
+  let playerX = playerCoords[0];
+  let playerY = playerCoords[1];
+  // oh god theres TWO OF THEM
+  if (buildingDirection == "right") { 
+    grid[playerY][playerX + 1].ground.classList.remove("selected");
+  } else if ( buildingDirection == "down") { 
+    grid[playerY + 1][playerX].ground.classList.remove("selected");
+  } else if (buildingDirection == "left") { 
+    grid[playerY][playerX - 1].ground.classList.remove("selected");
+  }  else if (buildingDirection == "up") { 
+    grid[playerY - 1][playerX].ground.classList.remove("selected");
+  }
 }

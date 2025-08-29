@@ -113,6 +113,7 @@ const masonry = {
 
   ingredients: [[stone, 2]],
   drop: stone,
+  walkable: true,
 
   sources: {
     block: {

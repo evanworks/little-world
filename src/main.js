@@ -2,7 +2,7 @@ let doAnim = false;
 
 let dev = "very true";
 
-let zoomScaleMobile = 2
+let zoomScale = 2;
 
 const noise = new Noise(Math.random());
 const noise2 = new Noise(Math.random());
@@ -11,6 +11,7 @@ const noise2 = new Noise(Math.random());
 let playerIndex = 0;
 let playerCoords;
 let building = false; 
+let buildingDirection = "right";
 
 let width = Math.floor(window.innerWidth / 25) + 2;
 let height = Math.floor(window.innerHeight / 25) + 3;
@@ -108,11 +109,12 @@ function maybeSpawn(x, y, cell, resource, source = Object.entries(resource.sourc
   const scale = 0.1;
   const elevation = noise2.perlin2(x * scale, y * scale);
 
-  if (elevation < chance && Math.random() < chance && !cell.blocked) {
-    createSource(resource, source, x, y, cell);
+  if (elevation < chance && Math.random() < chance && !cell.blocked && !grid[y][x].resource) {
+    if (grid[y][x].resource) console.log("yes");
+    createSource(resource, source, x, y, cell, resource.walkable);
   }
 }
-function createSource(resource, source, x, y, cell) {
+function createSource(resource, source, x, y, cell, walkable) {
   const poiimg = document.createElement('img');
   poiimg.classList.add('source');
   poiimg.src = source.sourceImg;
@@ -123,7 +125,7 @@ function createSource(resource, source, x, y, cell) {
   grid[y][x].resource = resource;
   grid[y][x].resourceEl = poiimg;
   grid[y][x].kind = "source";
-  grid[y][x].blocked = true;
+  if (!walkable) grid[y][x].blocked = true;
   grid[y][x].hits = source.hits;
   grid[y][x].chosenSource = source;
 }
@@ -165,6 +167,7 @@ async function start() {
 }
 function begin() {
   if (plainsIndices.length > 0) {
+    // player
     let spawn = plainsIndices[Math.floor(Math.random() * plainsIndices.length)];
 
     let spawnX = spawn[1];
@@ -172,6 +175,7 @@ function begin() {
     
     player = createPlayer(spawnX, spawnY);
 
+    // bench
     let benchX = spawnX + 1;
     if (grid[spawnY][benchX]) {
       if (grid[spawnY][benchX].blocked) {
@@ -182,17 +186,21 @@ function begin() {
       location.reload();
     } 
   } else {
+    // fail "safe"
     console.warn("uh ohhhhhh");
     let [spawnX, spawnY] = plainsIndices[Math.floor(Math.random() * grid.length)];
     player = createPlayer(spawnX, spawnY);
     bench = createBench(spawnX + 1, spawnY);
   }
 
+  // mobile
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   if (isTouchDevice) doStuffMobile();
 
-  doListeners();
+  // zoom (haha just kidding gotcha)
 
+  // init
+  doListeners();
   document.getElementById("title-bg").style.display = "none";
 }
 

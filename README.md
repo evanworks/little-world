@@ -14,6 +14,15 @@ Started as a terrain-generation test, became a weird little survival game
 
 ## Updates
 
+**Aug 28, 2025 -- 0.0.16**
+
+Fun fact: I took a "short break"
+
+* Somehow readded things spawning on top of each other???
+* Zoomed in the camera, made the world twice as large (just kidding i gave up)
+* added rotation during building (somehow easier than scaling an html elementttttttttttttttt)
+* changed masonry to "floor" and made it non-collidable
+
 **Aug 17, 2025 -- 0.0.15**
 
 Fun fact: I add a lot of random stuff to the files
