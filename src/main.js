@@ -80,6 +80,7 @@ async function createGrid(width, height, imgUrl) {
         grid[y][x].ground = img;
         maybeSpawn(x, y, cell, stone);
         maybeSpawn(x, y, cell, wood, undefined, wood.plainsSpawnChance);
+        maybeSpawn(x, y, cell, flower, undefined, flower.plainsSpawnChance);
 
         if (x > 0 && y > 0 && x < width - 3 && y < height - 3) { 
           plainsIndices.push([y,x]);

@@ -14,6 +14,12 @@ Started as a terrain-generation test, became a weird little survival game
 
 ## Updates
 
+** Aug 30, 2025 -- 0.0.17**
+
+Fun fact: flowers
+
+* probably invasive flowers (i will tweak the spawn chance)
+
 **Aug 28, 2025 -- 0.0.16**
 
 Fun fact: I took a "short break"

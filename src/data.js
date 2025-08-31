@@ -79,6 +79,30 @@ const coral = {
     }
   }
 }
+// a yellow daisy
+const flower = {
+  get item() {return inventory.flower;},
+  set item(val) {inventory.flower = val;},
+
+  file: 'flower',
+  img: 'res/img/resource/flower/flower.png',
+  inventory: 'res/img/resource/flower/flowerInv.png',
+
+  type: 'resource',
+  useAction: 'drop',
+  walkable: true,
+
+  plainsSpawnChance: 0.1,
+  sources: {
+    coral: {
+      sourceImg: 'res/img/resource/flower/flowers.png',
+      hitImg: 'res/img/resource/flower/flowersHit.png',
+      sourceClass: 'coral',
+      hits: 2
+    }
+  }
+}
+
 const plank = {
   get item() {return inventory.plank;},
   set item(val) {inventory.plank = val;},
@@ -162,6 +186,7 @@ const itemMap = {
   wood,
   stone,
   coral,
+  flower,
   plank,
-  masonry
+  masonry,
 };
