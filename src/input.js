@@ -141,8 +141,6 @@ function harvestAdjacent() {
     if (tile.kind == "source") {
       let resource = tile.resource;
       if (tile.resource.drop) resource = tile.resource.drop;
-
-      console.log(resource);
       
       if (!resource) return;
 

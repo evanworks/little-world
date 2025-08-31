@@ -26,7 +26,7 @@ let isChopping = false;
 
 let startingResources = [wood, stone];
 
-let craftableItems = [plank, masonry];
+let craftableItems = [plank, masonry, flowerpot];
 
 const containerEl = document.getElementById("game");
 const inventoryEl = document.getElementById("inventory");

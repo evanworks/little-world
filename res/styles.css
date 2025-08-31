@@ -191,6 +191,7 @@ body {
   color: white;
   position: relative;
   display: flex;
+  margin-top: -3px;
 }
 .resourceAmount img {
   object-fit: contain;

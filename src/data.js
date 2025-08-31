@@ -148,6 +148,28 @@ const masonry = {
     }
   }
 }
+const flowerpot = {
+  get item() {return inventory.flowerpot;},
+  set item(val) {inventory.flowerpot = val;},
+  
+  file: 'flowerpot',
+  inventory: 'res/img/structure/flowerpot/flowerpotInv.png',
+
+  type: 'structure',
+  useAction: 'build',
+
+  ingredients: [[flower, 1], [wood, 4]],
+  drop: wood,
+
+  sources: {
+    block: {
+      sourceImg: 'res/img/structure/flowerpot/flowerpot.png',
+      hitImg: 'res/img/structure/flowerpot/flowerpotHit.png',
+      sourceClass: 'block',
+      hits: 8
+    }
+  }
+}
 
 const woodPick = {
   file: 'woodPick',
@@ -180,7 +202,8 @@ const inventory = {
   coral: 0,
   flower: 0,
   plank: 0,
-  masonry: 0
+  masonry: 0,
+  flowerpot: 0,
 }
 
 const itemMap = {
@@ -190,4 +213,5 @@ const itemMap = {
   flower,
   plank,
   masonry,
+  flowerpot,
 };

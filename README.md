@@ -2,19 +2,30 @@
 
 Started as a terrain-generation test, became a weird little survival game
 
+<a href="evanworks.github.io/little-world">Play now</a>
+
 *NOTE:* does not work sometimes
 
 ## Todo
 
 * Actually update buglist
 * ~~Make sources capable of dropping other resources~~
-* Add a way to change picking direction while building
+* ~~Add a way to change picking direction while building~~
 * Add an image directory to all of the objects (res/img/.../...)
 * Add tutorial / controls
+* Add system to obtain crafting recipes
+* Pickaxes and such
+* Allow placing stuff like flowerpots on top of stuff like masonry
 
 ## Updates
 
-** Aug 30, 2025 -- 0.0.17**
+**Aug 31, 2025 -- 0.0.19**
+
+* fixed a wonderful amazing spelling error
+* added play button to readme
+* added powerflots
+
+**Aug 30, 2025 -- 0.0.17**
 
 Fun fact: flowers
 
@@ -27,7 +38,7 @@ EDIT 0.0.18: Fixed flowers in inventory, tweaked 16x16 flower sprite, fixed spaw
 Fun fact: I took a "short break"
 
 * Somehow readded things spawning on top of each other???
-* Zoomed in the camera, made the world twice as large (just kidding i gave up)
+* Zoomed in the camera, made the world twice as large (just kidding i gave up and died inside)
 * added rotation during building (somehow easier than scaling an html elementttttttttttttttt)
 * changed masonry to "floor" and made it non-collidable
 
@@ -112,7 +123,7 @@ Random terrain gen and coral (doesn't appear in inventory yet)
 
 ## Known Bugs
 
-* Destroying plank or masonry creates a magically pointless undefined tile
+* ~~Destroying plank or masonry creates a magically pointless undefined tile~~
 * ~~Pickup animation plays on tiles where a resource is already collected~~
 * ~~Pressing CMD plays the pickup animation for some reason???~~
 * Crafting bench can spawn on top of a rock
