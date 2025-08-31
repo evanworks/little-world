@@ -6,8 +6,7 @@ Started as a terrain-generation test, became a weird little survival game
 
 *NOTE:* does not work sometimes
 
-<details>
-<summary><h2 style="display: inline;">Todo</h2></summary>
+## Todo
 
 * Actually update buglist
 * ~~Make sources capable of dropping other resources~~
@@ -18,8 +17,6 @@ Started as a terrain-generation test, became a weird little survival game
 * Pickaxes and such
 * Allow placing stuff like flowerpots on top of stuff like masonry
 
-</details>
-
 ## Updates
 
 **Aug 31, 2025 -- 0.0.19**
@@ -27,11 +24,6 @@ Started as a terrain-generation test, became a weird little survival game
 * fixed a wonderful amazing spelling error
 * added play button to readme
 * added powerflots
-
-EDIT 0.0.20 (yipee): Added dropdowns to the readme
-
-<details>
-<summary><b>see more...</b></summary>
 
 **Aug 30, 2025 -- 0.0.17**
 
@@ -128,4 +120,13 @@ EDIT 0.0.4: Improved mobile support again and PWA certification
 
 Random terrain gen and coral (doesn't appear in inventory yet)
 
-</details>
+
+## Known Bugs
+
+* ~~Destroying plank or masonry creates a magically pointless undefined tile~~
+* ~~Pickup animation plays on tiles where a resource is already collected~~
+* ~~Pressing CMD plays the pickup animation for some reason???~~
+* Crafting bench can spawn on top of a rock
+* ~~Opening crafting menu while walking causes it to stay open FOREVER~~
+* ~~Game crashes when player is spawned in certain locations~~
+* ~~Sometimes the middle of the ocean is a valid spawn location for the player?~~
