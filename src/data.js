@@ -92,7 +92,7 @@ const flower = {
   useAction: 'drop',
   walkable: true,
 
-  plainsSpawnChance: 0.1,
+  plainsSpawnChance: 0.02,
   sources: {
     coral: {
       sourceImg: 'res/img/resource/flower/flowers.png',
@@ -178,6 +178,7 @@ const inventory = {
   wood: 0,
   stone: 0,
   coral: 0,
+  flower: 0,
   plank: 0,
   masonry: 0
 }

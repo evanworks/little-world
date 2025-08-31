@@ -20,6 +20,8 @@ Fun fact: flowers
 
 * probably invasive flowers (i will tweak the spawn chance)
 
+EDIT 0.0.18: Fixed flowers in inventory, tweaked 16x16 flower sprite, fixed spawn chance
+
 **Aug 28, 2025 -- 0.0.16**
 
 Fun fact: I took a "short break"
