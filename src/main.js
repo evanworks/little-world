@@ -1,135 +1,35 @@
-let doAnim = false;
+const globals = {
+  doAnim: false,
+  dev: true,
+  zoomScale: 2,
 
-let dev = true;
+  seed: Math.random() * 1e16,
+  random: null,
+  noise1: 0.5,
+  noise2: 0.5,
 
-let zoomScale = 2;
-
-const noise = new Noise(Math.random());
-const noise2 = new Noise(Math.random());
-
-
-let playerIndex = 0;
-let playerCoords;
-let building = false; 
-let buildingDirection = "right";
-
-let width = Math.floor(window.innerWidth / 25) + 2;
-let height = Math.floor(window.innerHeight / 25) + 3;
-
-let player;
-let bench;
-let grid = [];
-
-const plainsIndices = [];
-
-let isChopping = false;
-
-let startingResources = [wood, stone];
-
-let craftableItems = [plank, masonry, flowerpot];
-
-const containerEl = document.getElementById("game");
-const inventoryEl = document.getElementById("inventory");
-const crafting = document.getElementById("crafting");
-const spotlight = document.getElementById("spotlight");
-
-
-async function createGrid(width, height, imgUrl) {
-  containerEl.style.display = 'grid';
-  containerEl.style.gridTemplateColumns = `repeat(${width}, 25px)`;
-  containerEl.style.width = `${width * 25}px`;
-
-  const scale = 0.1;
-
-  for (let y = 0; y < height; y++) {
-    grid.push([])
-    for (let x = 0; x < width; x++) {
-      grid[y].push({
-        blocked: false,
-        ground: undefined,
-        tile: undefined,
-        resource: undefined,
-        chosenSource: undefined,
-        resourceEl: undefined,
-        hits: undefined,
-        kind: "",
-      });
-      if (doAnim) { await new Promise(resolve => setTimeout(resolve, 0)) }
-
-      const elevation = noise.perlin2(x * scale, y * scale);
-
-      const cell = document.createElement('div');
-      const img = document.createElement('img');
-      img.classList.add('tile');
-      img.src = imgUrl;
-
-      grid[y][x].blocked = false;
-
-      if (elevation < -0.3) {
-        img.src = 'res/img/world/water.png';
-        if (Math.random() > 0.97) img.src = 'res/img/world/feesh.png';
-        grid[y][x].ground = img;
-        grid[y][x].blocked = true;
-      } else if (elevation < -0.2) {
-        img.src = 'res/img/world/sand.png';
-        grid[y][x].ground = img;
-        maybeSpawn(x, y, cell, coral);
-        
-      } else if (elevation < 0.2) {
-        img.src = 'res/img/world/grass.png';
-        grid[y][x].ground = img;
-        maybeSpawn(x, y, cell, stone);
-        maybeSpawn(x, y, cell, wood, undefined, wood.plainsSpawnChance);
-        maybeSpawn(x, y, cell, flower, undefined, flower.plainsSpawnChance);
-
-        if (x > 0 && y > 0 && x < width - 3 && y < height - 3) { 
-          plainsIndices.push([y,x]);
-        }
-      } else if (elevation < 1) {
-        img.src = 'res/img/world/grass.png';
-        grid[y][x].ground = img;
-        maybeSpawn(x, y, cell, wood, wood.sources.dead, wood.deadSpawnChance);
-        maybeSpawn(x, y, cell, wood, undefined, wood.forestSpawnChance);
-      }
-      grid[y][x].tile = cell;
-
-      cell.appendChild(img)
-      containerEl.appendChild(cell)
-    } 
-  }
-  // failed attempt at large trees :(
-  /*for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      if (Math.random() > 0.9) placeMultiTile(x, y, x*width+y, wood.sources.oak);
-    }
-  }*/
+  width: (Math.floor(window.innerWidth / 25) + 2) * 1,
+  height: (Math.floor(window.innerHeight / 25) + 3) * 1,
 }
 
-// source/chance here is so messed up
-function maybeSpawn(x, y, cell, resource, source = Object.entries(resource.sources)[0][1], chance = resource.spawnChance) {
-  const scale = 0.1;
-  const elevation = noise2.perlin2(x * scale, y * scale);
+const state = {
+  building: false,
+  buildingDirection: "right",
+  grid: [],
+  unlockedRecipes: [plank, masonry, flowerpot],
 
-  if (elevation < chance && Math.random() < chance && !cell.blocked && !grid[y][x].resource) {
-    if (grid[y][x].resource) console.log("yes");
-    createSource(resource, source, x, y, cell, resource.walkable);
-  }
+  playerCoords: null,
+  player: null
 }
-function createSource(resource, source, x, y, cell, walkable) {
-  const poiimg = document.createElement('img');
-  poiimg.classList.add('source');
-  poiimg.src = source.sourceImg;
-  poiimg.id = resource.file;
 
-  cell.insertBefore(poiimg, cell.firstChild);
-
-  grid[y][x].resource = resource;
-  grid[y][x].resourceEl = poiimg;
-  grid[y][x].kind = "source";
-  if (!walkable) grid[y][x].blocked = true;
-  grid[y][x].hits = source.hits;
-  grid[y][x].chosenSource = source;
+const ui = {
+  container: document.getElementById("game"),
+  inventory: document.getElementById("inventory"),
+  crafting: document.getElementById("crafting"),
+  loader: document.getElementById("loader-wrapper")
 }
+
+let grid = state.grid;
 
 function createPlayer(x, y) {
   const player = document.createElement('img');
@@ -143,7 +43,7 @@ function createPlayer(x, y) {
 
   const tile = grid[y][x].tile;
   tile.appendChild(player);
-  playerCoords = [x, y];
+  state.playerCoords = [x, y];
 
   return player;
 }
@@ -155,67 +55,41 @@ function createBench(x, y) {
   const tile = grid[y][x].tile;
   tile.appendChild(bench);
 
+  if (grid[y][x].resourceEl) {
+    grid[y][x].resourceEl.remove();
+    grid[y][x].blocked = false;
+  }
+
   grid[y][x].blocked = true;
   grid[y][x].kind = "bench";
 
   return bench;
 }
 
-async function start() {
-  await createGrid(width, height, 'res/img/world/grass.png');
+async function begin() {
+  mapSeed();
 
-  if (dev == "very true") document.getElementById("debug").style.display = "block";
-}
-function begin() {
-  if (plainsIndices.length > 0) {
-    // player
-    let spawn = plainsIndices[Math.floor(Math.random() * plainsIndices.length)];
+  document.getElementById("title").style.display = "none";
+  ui.loader.style.display = "block";
+  console.log("hey")
+  
+  await createGrid(globals.width, globals.height, 'res/img/world/grass.png');
 
-    let spawnX = spawn[1];
-    let spawnY = spawn[0];
-    
-    player = createPlayer(spawnX, spawnY);
+  if (globals.dev == "very true") document.getElementById("debug").style.display = "block";
 
-    // bench
-    let benchX = spawnX + 1;
-    if (grid[spawnY][benchX]) {
-      if (grid[spawnY][benchX].blocked) {
-        benchX = spawnX - 1;
-      }
-      bench = createBench(benchX, spawnY);
-    } else {
-      location.reload();
-    } 
-  } else {
-    // fail "safe"
-    console.warn("uh ohhhhhh");
-    let [spawnX, spawnY] = plainsIndices[Math.floor(Math.random() * grid.length)];
-    player = createPlayer(spawnX, spawnY);
-    bench = createBench(spawnX + 1, spawnY);
-  }
+  probablySpawnPlayerAndBench()
 
-  // mobile
   const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
   if (isTouchDevice) doStuffMobile();
 
-  // zoom (haha just kidding gotcha)
-
-  // init
   doListeners();
+  
   document.getElementById("title-bg").style.display = "none";
 }
-
-start();
 
 function capitalizeFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
-
-
-
-
-
-
 
 const konamiCode = [
   'ArrowUp', 'ArrowUp',
@@ -231,7 +105,7 @@ document.addEventListener('keydown', (e) => {
   if (e.key.toLowerCase() === konamiCode[position].toLowerCase()) {
     position++;
     if (position === konamiCode.length) {
-      if (dev) document.getElementById("debug").style.display = "block";
+      if (globals.dev) document.getElementById("debug").style.display = "block";
       position = 0;
     }
   } else {

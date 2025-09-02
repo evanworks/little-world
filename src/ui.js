@@ -6,15 +6,18 @@
 function openInventory() {
   const actualInventory = document.getElementById("centered");
 
-  crafting.style.display = "none"; 
+  ui.crafting.style.display = "none"; 
 
-  if (inventoryEl.style.display == 'none') inventoryEl.style.display = "block"; 
-  else inventoryEl.style.display = "none"; 
+  if (ui.inventory.style.display == 'none') ui.inventory.style.display = "block"; 
+  else ui.inventory.style.display = "none"; 
 
   actualInventory.innerHTML = "";
 
+  let useless = true;
   Object.entries(inventory).forEach(([key, value]) => {
-    if (value < 1 && key !== "wood") return;
+    if (value < 1) return;
+
+    useless = false;
 
     const container = document.createElement("div");
     container.classList.add("inventoryContainer");
@@ -33,20 +36,24 @@ function openInventory() {
 
     actualInventory.appendChild(container);
   });
+
+  if (useless) {
+    ui.inventory.style.display = "none";
+  }
 }
 
 function openCrafting() {
-  if (crafting.style.display == 'none') { 
-    crafting.style.display = "block"; 
+  if (ui.crafting.style.display == 'none') { 
+    ui.crafting.style.display = "block"; 
   } else { 
-    crafting.style.display = "none"; 
+    ui.crafting.style.display = "none"; 
   }
 
-  let wrapper = crafting.children[0];
+  let wrapper = ui.crafting.children[0];
 
   wrapper.innerHTML = "";
-  for (i in craftableItems) {
-    let item = craftableItems[i];
+  for (i in state.unlockedRecipes) {
+    let item = state.unlockedRecipes[i];
     
     const idk = document.createElement('div');
     idk.classList.add("inventoryContainer");

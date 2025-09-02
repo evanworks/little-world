@@ -1,11 +1,11 @@
 function playerMovement(key) {
-  let x = playerCoords[0];
-  let y = playerCoords[1];
+  let x = state.playerCoords[0];
+  let y = state.playerCoords[1];
 
 
-  if (key === 'ArrowRight' && x < width - 1) x++;
+  if (key === 'ArrowRight' && x < globals.width - 1) x++;
   else if (key === 'ArrowLeft' && x > 0) x--;
-  else if (key === 'ArrowDown' && y < height - 1) y++;
+  else if (key === 'ArrowDown' && y < globals.height - 1) y++;
   else if (key === 'ArrowUp' && y > 0) y--;
 
   if (!grid[y][x].blocked) {
@@ -15,11 +15,11 @@ function playerMovement(key) {
 
     clearTile();
 
-    grid[y][x].tile.appendChild(player);
-    playerCoords = [x, y];
+    grid[y][x].tile.appendChild(state.player);
+    state.playerCoords = [x, y];
 
-    if (building) {
-      buildMode(building, false);
+    if (state.building) {
+      buildMode(state.building, false);
     }
   }
 
@@ -28,11 +28,6 @@ function playerMovement(key) {
 
 function collectResource(coords) {
   let tile = grid[coords[1]][coords[0]];
-
-  player.src = 'res/img/player/collect.png';
-  setTimeout(() => {
-    player.src = 'res/img/player/player.png';
-  }, 300)
 
   const el = tile.resourceEl;
   el.remove();
@@ -47,29 +42,29 @@ let chopInterval;
 function doListeners() {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'z') {
-      if (building) {
-        buildMode(building, true)
+      if (state.building) {
+        buildMode(state.building, true)
       } else {
         if (!chopInterval) {
           chop();
           chopInterval = setInterval(chop, 500);
         }
         checkForBench();
-        inventoryEl.style.display = "none";
+        ui.inventory.style.display = "none";
       }
     } else if (e.key === 'c') {
-      if (building) {
+      if (state.building) {
         clearTile();
         toggleBuildingDirection();
       } else {
         openInventory();
       }
     } else if (e.key === 'x') {
-      crafting.style.display = "none"; 
-      inventoryEl.style.display = "none"; 
+      ui.crafting.style.display = "none"; 
+      ui.inventory.style.display = "none"; 
       leaveBuildMode();
     } else {
-      if (crafting.style.display == "none") playerMovement(e.key);
+      if (ui.crafting.style.display == "none") playerMovement(e.key);
     }
   });
 
@@ -83,18 +78,17 @@ function doListeners() {
 function chop() {
   let flip = harvestAdjacent();
   if (flip) {
-    player.style.marginLeft = "-20px";
-    player.src = 'res/img/player/chopRight.gif';
+    state.player.style.marginLeft = "-20px";
+    state.player.src = 'res/img/player/chopRight.gif';
   } else {
-    player.style.marginLeft = "-30px";
-    player.src = 'res/img/player/chopLeft.gif';
+    state.player.style.marginLeft = "-30px";
+    state.player.src = 'res/img/player/chopLeft.gif';
   }
 }
 
 function stopChopping() {
-  isChopping = false;
-  player.style.marginLeft = "-25px";
-  player.src = 'res/img/player/player.png';
+  state.player.style.marginLeft = "-25px";
+  state.player.src = 'res/img/player/player.png';
 
   clearInterval(chopInterval);
   chopInterval = null;
@@ -105,12 +99,12 @@ function checkForBench() {
   const adjacentOffsets = [[0,1],[0,-1],[1,0],[-1,0]];
   
   for (let offset of adjacentOffsets) {
-    const index = [playerCoords[0]-offset[0],playerCoords[1]-offset[1]];
+    const index = [state.playerCoords[0]-offset[0],state.playerCoords[1]-offset[1]];
     const tile = grid[index[1]][index[0]];
     
     if (tile && tile.kind == "bench") {
-      player.src = 'res/img/player/player.png';
-      player.style.marginLeft = "-25px";
+      state.player.src = 'res/img/player/player.png';
+      state.player.style.marginLeft = "-25px";
       openCrafting();
       break;
     }
@@ -123,7 +117,7 @@ function harvestAdjacent() {
   const adjacentOffsets = [[0,1],[0,-1],[1,0],[-1,0]];
 
   adjacentOffsets.forEach(offset => {
-    const [px, py] = playerCoords;
+    const [px, py] = state.playerCoords;
     const [ox, oy] = offset;
     const tx = px - ox;
     const ty = py - oy;

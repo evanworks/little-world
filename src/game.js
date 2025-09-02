@@ -1,6 +1,6 @@
 function craftItem(item) {
-  canCraft = true;
-  for (i in item.ingredients) {
+  let canCraft = true;
+  for (let i in item.ingredients) {
     i = item.ingredients[i];
     if (i[0].item < i[1]) {
       canCraft = false;
@@ -9,7 +9,7 @@ function craftItem(item) {
   if (!canCraft) return;
 
   item.item++;
-  for (i in item.ingredients) {
+  for (let i in item.ingredients) {
     i = item.ingredients[i];
     i[0].item -= i[1];
   }
@@ -20,10 +20,10 @@ function craftItem(item) {
 function useItem(item) {
   if (item.item < 1) return;
 
-  let playerX = playerCoords[0];
-  let playerY = playerCoords[1];
+  let playerX = state.playerCoords[0];
+  let playerY = state.playerCoords[1];
 
-  inventoryEl.style.display = "none";
+  ui.inventory.style.display = "none";
 
   if (item.useAction == 'drop') {
     let dropX = playerX - 1;
@@ -59,30 +59,30 @@ function drop(tile, resource) {
 function buildMode(item, build) {
   clearTile();
 
-  building = item;
+  state.building = item;
 
   if (item.item < 1) { 
     leaveBuildMode(); 
     return; 
   }
 
-  let playerX = playerCoords[0];
-  let playerY = playerCoords[1];
+  let playerX = state.playerCoords[0];
+  let playerY = state.playerCoords[1];
 
   let buildX = playerX;
   let buildY = playerY;
   
   let tile;
-  if (buildingDirection == "right") { 
+  if (state.buildingDirection == "right") { 
     tile = grid[playerY][playerX + 1]; 
     buildX += 1;
-  } else if ( buildingDirection == "down") { 
+  } else if (state.buildingDirection == "down") { 
     tile = grid[playerY + 1][playerX]; 
     buildY += 1;
-  } else if (buildingDirection == "left") { 
+  } else if (state.buildingDirection == "left") { 
     tile = grid[playerY][playerX - 1];
     buildX -= 1;
-  } else if (buildingDirection == "up") { 
+  } else if (state.buildingDirection == "up") { 
     tile = grid[playerY - 1][playerX]; 
     buildY -= 1;
   }
@@ -99,34 +99,34 @@ function buildMode(item, build) {
   }
 }
 function toggleBuildingDirection() {
-  if (buildingDirection == "right") {
-    buildingDirection = "down";
-  } else if (buildingDirection == "down") {
-    buildingDirection = "left";
-  } else if (buildingDirection == "left") {
-    buildingDirection = "up";
-  } else if (buildingDirection == "up") {
-    buildingDirection = "right";
+  if (state.buildingDirection == "right") {
+    state.buildingDirection = "down";
+  } else if (state.buildingDirection == "down") {
+    state.buildingDirection = "left";
+  } else if (state.buildingDirection == "left") {
+    state.buildingDirection = "up";
+  } else if (state.buildingDirection == "up") {
+    state.buildingDirection = "right";
   }
-  buildMode(building, false);
+  buildMode(state.building, false);
 }
 
 function leaveBuildMode() {
   clearTile();
-  building = false;
+  state.building = false;
 }
 function clearTile() {
   let tile;
-  let playerX = playerCoords[0];
-  let playerY = playerCoords[1];
+  let playerX = state.playerCoords[0];
+  let playerY = state.playerCoords[1];
   // oh god theres TWO OF THEM
-  if (buildingDirection == "right") { 
+  if (state.buildingDirection == "right") { 
     grid[playerY][playerX + 1].ground.classList.remove("selected");
-  } else if ( buildingDirection == "down") { 
+  } else if (state.buildingDirection == "down") { 
     grid[playerY + 1][playerX].ground.classList.remove("selected");
-  } else if (buildingDirection == "left") { 
+  } else if (state.buildingDirection == "left") { 
     grid[playerY][playerX - 1].ground.classList.remove("selected");
-  }  else if (buildingDirection == "up") { 
+  }  else if (state.buildingDirection == "up") { 
     grid[playerY - 1][playerX].ground.classList.remove("selected");
   }
 }

@@ -8,16 +8,24 @@ Started as a terrain-generation test, became a weird little survival game
 
 ## Todo
 
-* Actually update buglist
-* ~~Make sources capable of dropping other resources~~
-* ~~Add a way to change picking direction while building~~
-* Add an image directory to all of the objects (res/img/.../...)
+* Add an image directory to all of the objects (res/img/.../...) ?
 * Add tutorial / controls
 * Add system to obtain crafting recipes
 * Pickaxes and such
-* Allow placing stuff like flowerpots on top of stuff like masonry
+* Allow placing stuff like flowerpots on top of stuff like masonry (just check if tile is walkable or not?)
+* Make benches craftable
 
 ## Updates
+
+**Labor Day, 2025 -- 0.0.20**
+
+r e f a c t o r i n g g g g g g g g
+
+* made masonry and planks not ridiculously expensive
+* refactored global variables into state() and globals()
+* added seeds ( type seed() in the console to view your seed and share it with your friends for no reason)
+* made title screen background black
+* fixed 0 wood bug
 
 **Aug 31, 2025 -- 0.0.19**
 

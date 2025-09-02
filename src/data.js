@@ -113,7 +113,7 @@ const plank = {
   type: 'structure',
   useAction: 'build',
 
-  ingredients: [[wood, 4]],
+  ingredients: [[wood, 2]],
   drop: wood,
 
   sources: {
@@ -135,7 +135,7 @@ const masonry = {
   type: 'structure',
   useAction: 'build',
 
-  ingredients: [[stone, 2]],
+  ingredients: [[stone, 1]],
   drop: stone,
   walkable: true,
 
@@ -170,15 +170,7 @@ const flowerpot = {
     }
   }
 }
-
-const woodPick = {
-  file: 'woodPick',
-  img: 'res/img/inventory/woodPick.png',
-
-  type: 'tool',
-
-  ingredients: [[wood, 10]]
-}
+/*
 const stonePick = {
   file: 'stonePick',
   img: 'res/img/inventory/stonePick.png',
@@ -187,14 +179,7 @@ const stonePick = {
 
   ingredients: [[wood, 5], [stone, 10]]
 }
-const crystalPick = {
-  file: 'crystalPick',
-  img: 'res/img/inventory/crystalPick.png',
-
-  type: 'tool',
-
-  ingredients: [[wood, 5], [/*crystal*/wood, 10]]
-}
+*/
 
 const inventory = {
   wood: 0,

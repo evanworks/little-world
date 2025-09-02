@@ -1,19 +1,18 @@
 function doStuffMobile() {
-
   const gameEl = document.getElementById('game');
   gameEl.style.transformOrigin = 'top left';
-  gameEl.style.transform = `scale(${zoomScale})`;
+  gameEl.style.transform = `scale(${globals.zoomScale})`;
   gameEl.style.cursor = "auto";
 
-  inventoryEl.style.transform = `scale(${zoomScale})`;
-  inventoryEl.style.width = `calc(${100/zoomScale}% + 163px)`;
-  inventoryEl.children[0].style.marginLeft = `10%`;
-  inventoryEl.children[0].style.marginTop = `30%`;
+  ui.inventory.style.transform = `scale(${globals.zoomScale})`;
+  ui.inventory.style.width = `calc(${100/globals.zoomScale}% + 163px)`;
+  ui.inventory.children[0].style.marginLeft = `10%`;
+  ui.inventory.children[0].style.marginTop = `30%`;
 
-  crafting.style.transform = `scale(${zoomScale})`;
-  crafting.style.width = `calc(${100/zoomScale}% + 163px)`;
-  crafting.children[0].style.marginLeft = `10%`;
-  crafting.children[0].style.marginTop = `30%`;
+  ui.crafting.style.transform = `scale(${globals.zoomScale})`;
+  ui.crafting.style.width = `calc(${100/globals.zoomScale}% + 163px)`;
+  ui.crafting.children[0].style.marginLeft = `10%`;
+  ui.crafting.children[0].style.marginTop = `30%`;
 
   document.getElementById("game-container").style.overflow = "auto";
 
@@ -30,11 +29,11 @@ function doStuffMobile() {
 
 function updateCamera() {
   const container = document.getElementById('game-container');
-  const playerX = player.offsetLeft;
-  const playerY = player.offsetTop;
+  const playerX = state.player.offsetLeft;
+  const playerY = state.player.offsetTop;
 
-  container.scrollLeft = playerX * zoomScale - container.clientWidth / 2;
-  container.scrollTop = playerY * zoomScale - container.clientHeight / 2;
+  container.scrollLeft = playerX * globals.zoomScale - container.clientWidth / 2;
+  container.scrollTop = playerY * globals.zoomScale - container.clientHeight / 2;
 }
 
 function arrowButtonsMobile() {
@@ -68,15 +67,15 @@ function functionButtonsMobile() {
     event.preventDefault();
     z.src = `res/img/buttons/zPress.png`;
 
-    if (building) {
-      buildMode(building, true)
+    if (state.building) {
+      buildMode(state.building, true)
     } else {
       if (!chopInterval) {
         chop();
         chopInterval = setInterval(chop, 500);
       }
       checkForBench();
-      inventoryEl.style.display = "none";
+      ui.inventory.style.display = "none";
     }
   });
 
@@ -89,8 +88,8 @@ function functionButtonsMobile() {
     event.preventDefault();
     x.src = `res/img/buttons/xPress.png`;
 
-    crafting.style.display = "none"; 
-    inventoryEl.style.display = "none"; 
+    ui.crafting.style.display = "none"; 
+    ui.inventory.style.display = "none"; 
     leaveBuildMode();
   });
 

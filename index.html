@@ -18,6 +18,12 @@
         <img id="title-img" src="res/img/title.png">
         <div id="play" onclick="begin();">BEGIN</div>
       </div>
+      <div id="loader-wrapper" style="display: none;">
+        <div id="loader">
+          <div id="tinybar"></div>
+        </div>
+        <div id="percentage">0%</div>
+      </div>
     </div>
     <div id="inventory" style="display: none;">
       <div id="centered"></div>
@@ -43,6 +49,7 @@
   </body>
   <script src="src/noise.js"></script>
   <script src="src/data.js"></script>
+  <script src="src/world.js"></script>
   <script src="src/input.js"></script>
   <script src="src/mobile.js"></script>
   <script src="src/main.js"></script>
