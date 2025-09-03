@@ -1,6 +1,6 @@
 const globals = {
   doAnim: false,
-  dev: "very true",
+  dev: true,
   zoomScale: 1,
 
   seed: Math.random() * 1e16,
