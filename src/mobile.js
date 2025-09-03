@@ -1,4 +1,5 @@
 function doStuffMobile() {
+
   const gameEl = document.getElementById('game');
   gameEl.style.transformOrigin = 'top left';
   gameEl.style.transform = `scale(${globals.zoomScale})`;

@@ -36,11 +36,17 @@ body {
 }
 
 #game-container {
+  overflow: scroll; 
   width: 100vw;
   height: 100vh;
   position: absolute;
   top: 0;
   left: 0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+#game-container::-webkit-scrollbar {
+  display: none;
 }
 
 img {

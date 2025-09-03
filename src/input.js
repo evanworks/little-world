@@ -87,7 +87,7 @@ function chop() {
 }
 
 function stopChopping() {
-  state.player.style.marginLeft = "-25px";
+  state.player.style.marginLeft = `-${globals.tileSize}px`;
   state.player.src = 'res/img/player/player.png';
 
   clearInterval(chopInterval);
@@ -104,7 +104,7 @@ function checkForBench() {
     
     if (tile && tile.kind == "bench") {
       state.player.src = 'res/img/player/player.png';
-      state.player.style.marginLeft = "-25px";
+      state.player.style.marginLeft = `-${globals.tileSize}px`;
       openCrafting();
       break;
     }

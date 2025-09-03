@@ -18,8 +18,8 @@ function mapSeed() {
 
 async function createGrid(width, height, imgUrl) {
   ui.container.style.display = 'grid';
-  ui.container.style.gridTemplateColumns = `repeat(${width}, 25px)`;
-  ui.container.style.width = `${width * 25}px`;
+  ui.container.style.gridTemplateColumns = `repeat(${width}, ${globals.tileSize}px)`;
+  ui.container.style.width = `${width * globals.tileSize}px`;
 
   const scale = 0.1;
   let count = 0;
@@ -102,7 +102,7 @@ function createSource(resource, source, x, y, cell, walkable) {
   poiimg.src = source.sourceImg;
   poiimg.id = resource.file;
 
-  cell.insertBefore(poiimg, cell.firstChild);
+  cell.insertBefore(poiimg, cell.lastChild);
 
   grid[y][x].resource = resource;
   grid[y][x].resourceEl = poiimg;

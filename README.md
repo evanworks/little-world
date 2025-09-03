@@ -12,10 +12,19 @@ Started as a terrain-generation test, became a weird little survival game
 * Add tutorial / controls
 * Add system to obtain crafting recipes
 * Pickaxes and such
-* Allow placing stuff like flowerpots on top of stuff like masonry (just check if tile is walkable or not?)
+* Make mining two objects on top of each other work
+* Make tile select border show when placing an object on top of another
 * Make benches craftable
+* Remove white line at the bottom of the world
 
 ## Updates
+
+**Sep 2, 2025 -- 0.0.21**
+
+* made the world massive and scrollable
+* avoided the important stuff
+* but i did allow placing flowerpots
+* on top of masonry
 
 **Labor Day, 2025 -- 0.0.20**
 

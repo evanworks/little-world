@@ -1,15 +1,16 @@
 const globals = {
   doAnim: false,
-  dev: true,
-  zoomScale: 2,
+  dev: "very true",
+  zoomScale: 1,
 
   seed: Math.random() * 1e16,
   random: null,
   noise1: 0.5,
   noise2: 0.5,
+  tileSize: 25,
 
-  width: (Math.floor(window.innerWidth / 25) + 2) * 1,
-  height: (Math.floor(window.innerHeight / 25) + 3) * 1,
+  width: (Math.floor(window.innerWidth / 25) + 2) * 2, // remember these lines when changing tileSize
+  height: (Math.floor(window.innerHeight / 25) + 3) * 2,
 }
 
 const state = {
@@ -85,6 +86,8 @@ async function begin() {
   doListeners();
   
   document.getElementById("title-bg").style.display = "none";
+
+  updateCamera();
 }
 
 function capitalizeFirst(str) {
