@@ -181,6 +181,32 @@ const stonePick = {
 }
 */
 
+const grass = {
+  file: 'grass',
+  img: 'res/img/world/grass.png',
+  sound: 'res/sound/footstep/grass.wav',
+  
+  type: 'terrain',
+}
+const sand = {
+  file: 'sand',
+  img: 'res/img/world/sand.png',
+  sound: 'res/sound/footstep/snow.wav',
+
+  type: 'terrain',
+}
+const water = {
+  file: 'water',
+  img: 'res/img/world/water.png',
+  feesh: 'res/img/world/feesh.png',
+
+  sound: 'res/sound/footstep/grass.wav',
+
+  type: 'terrain',
+}
+
+
+
 const inventory = {
   wood: 0,
   stone: 0,

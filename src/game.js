@@ -94,7 +94,7 @@ function buildMode(item, build) {
       createSource(item, Object.values(item.sources)[0], buildX, buildY, tile.tile, item.walkable);
       item.item--;
     } else {
-      tile.ground.classList.add("selected");
+      tile.groundEl.classList.add("selected");
     }
   }
 }
@@ -116,17 +116,16 @@ function leaveBuildMode() {
   state.building = false;
 }
 function clearTile() {
-  let tile;
   let playerX = state.playerCoords[0];
   let playerY = state.playerCoords[1];
   // oh god theres TWO OF THEM
   if (state.buildingDirection == "right") { 
-    grid[playerY][playerX + 1].ground.classList.remove("selected");
+    grid[playerY][playerX + 1].groundEl.classList.remove("selected");
   } else if (state.buildingDirection == "down") { 
-    grid[playerY + 1][playerX].ground.classList.remove("selected");
+    grid[playerY + 1][playerX].groundEl.classList.remove("selected");
   } else if (state.buildingDirection == "left") { 
-    grid[playerY][playerX - 1].ground.classList.remove("selected");
+    grid[playerY][playerX - 1].groundEl.classList.remove("selected");
   }  else if (state.buildingDirection == "up") { 
-    grid[playerY - 1][playerX].ground.classList.remove("selected");
+    grid[playerY - 1][playerX].groundEl.classList.remove("selected");
   }
 }

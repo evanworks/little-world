@@ -27,7 +27,8 @@ const ui = {
   container: document.getElementById("game"),
   inventory: document.getElementById("inventory"),
   crafting: document.getElementById("crafting"),
-  loader: document.getElementById("loader-wrapper")
+  loader: document.getElementById("loader-wrapper"),
+  audio: new window.AudioContext()
 }
 
 let grid = state.grid;

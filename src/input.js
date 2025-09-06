@@ -11,12 +11,16 @@ function playerMovement(key) {
   if (!grid[y][x].blocked) {
     if (grid[y][x].kind == "resource") {
       collectResource([x, y]);
+      playSound("res/sound/collect3.wav");
+    } else {
+      playSound(grid[y][x].ground.sound);
     }
 
     clearTile();
 
     grid[y][x].tile.appendChild(state.player);
     state.playerCoords = [x, y];
+    
 
     if (state.building) {
       buildMode(state.building, false);
@@ -63,7 +67,7 @@ function doListeners() {
       ui.crafting.style.display = "none"; 
       ui.inventory.style.display = "none"; 
       leaveBuildMode();
-    } else {
+    } else if (e.key == "ArrowUp" || e.key == "ArrowDown" || e.key == "ArrowRight" || e.key == "ArrowLeft") {
       if (ui.crafting.style.display == "none") playerMovement(e.key);
     }
   });
@@ -113,6 +117,7 @@ function checkForBench() {
 
 function harvestAdjacent() {
   let flip = false;
+  let playDestruction = false;
 
   const adjacentOffsets = [[0,1],[0,-1],[1,0],[-1,0]];
 
@@ -139,6 +144,7 @@ function harvestAdjacent() {
       if (!resource) return;
 
       if (tile.hits > 1) {
+
         if (offset[0]==0&&offset[1]==1) { // top
           tile.resourceEl.style.marginTop = "-8px";
           setTimeout(() => { tile.resourceEl.style.marginTop = "-6px"; }, 200)
@@ -159,6 +165,8 @@ function harvestAdjacent() {
         setTimeout(() => { tile.resourceEl.src = tile.chosenSource.sourceImg}, 200)
         tile.hits--;
       } else {
+        playDestruction = true;
+
         // destruction
         tile.blocked = false;
         const el = tile.resourceEl;
@@ -169,6 +177,9 @@ function harvestAdjacent() {
     } else if (tile.kind !== "source" && offset[0]==1 && offset[1]==0) {
       flip = true;
     }
+
+    if (playDestruction) playSound("res/sound/break2.wav");
+    else playSound("res/sound/hit2.wav");
   });
 
   return flip;

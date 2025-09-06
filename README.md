@@ -19,6 +19,11 @@ Started as a terrain-generation test, became a weird little survival game
 
 ## Updates
 
+**Sep 6, 2025 -- 0.0.22**
+
+* oops, been busy playing silksong
+* sfx
+
 **Sep 2, 2025 -- 0.0.21**
 
 * made the world massive and scrollable

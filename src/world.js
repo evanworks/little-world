@@ -49,18 +49,17 @@ async function createGrid(width, height, imgUrl) {
       grid[y][x].blocked = false;
 
       if (elevation < -0.3) {
-        img.src = 'res/img/world/water.png';
-        if (globals.random() > 0.97) img.src = 'res/img/world/feesh.png';
-        grid[y][x].ground = img;
+        img.src = water.img;
+        if (globals.random() > 0.97) img.src = water.feesh;
+        grid[y][x].ground = water;
         grid[y][x].blocked = true;
       } else if (elevation < -0.2) {
-        img.src = 'res/img/world/sand.png';
-        grid[y][x].ground = img;
+        img.src = sand.img;
+        grid[y][x].ground = sand;
         maybeSpawn(x, y, cell, coral);
-        
       } else if (elevation < 0.2) {
-        img.src = 'res/img/world/grass.png';
-        grid[y][x].ground = img;
+        img.src = grass.img;
+        grid[y][x].ground = grass;
         maybeSpawn(x, y, cell, stone);
         maybeSpawn(x, y, cell, wood, undefined, wood.plainsSpawnChance);
         maybeSpawn(x, y, cell, flower, undefined, flower.plainsSpawnChance);
@@ -69,11 +68,13 @@ async function createGrid(width, height, imgUrl) {
           plainsIndices.push([y,x]);
         }
       } else if (elevation < 1) {
-        img.src = 'res/img/world/grass.png';
-        grid[y][x].ground = img;
+        img.src = grass.img;
+        grid[y][x].ground = grass;
         maybeSpawn(x, y, cell, wood, wood.sources.dead, wood.deadSpawnChance);
         maybeSpawn(x, y, cell, wood, undefined, wood.forestSpawnChance);
       }
+
+      grid[y][x].groundEl = img;
       grid[y][x].tile = cell;
 
       cell.appendChild(img)
@@ -91,7 +92,6 @@ function maybeSpawn(x, y, cell, resource, source = Object.entries(resource.sourc
   const elevation = globals.noise2.perlin2(x * scale, y * scale);
 
   if (elevation < chance && globals.random() < chance && !grid[y][x].blocked) {
-    if (grid[y][x].resource) console.log("yes");
     createSource(resource, source, x, y, cell, resource.walkable);
   }
 }
