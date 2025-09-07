@@ -19,6 +19,12 @@ Started as a terrain-generation test, became a weird little survival game
 
 ## Updates
 
+**Sep 7, 2025 -- 0.0.23**
+
+* made scanlines appear above text in title screen
+* somewhat barren settings menu
+* seizures
+
 **Sep 6, 2025 -- 0.0.22**
 
 * oops, been busy playing silksong

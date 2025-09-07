@@ -96,3 +96,30 @@ function openCrafting() {
     wrapper.appendChild(idk);
   }
 }
+function toggleSettings() {
+  const settings = document.getElementById("settings");
+  const btn = document.getElementById("settingsbutton");
+
+  if (settings.style.display == "block") {
+    settings.style.display = "none";
+    btn.src = "res/img/buttons/settings.png";
+  } else {
+    settings.style.display = "block";
+    btn.src = "res/img/buttons/settingsOpen.png";
+  }
+}
+function toggleScanlines() {
+  const scanlines = document.getElementsByClassName("overlay")[0];
+  const scanlinesquestionmark = document.getElementById("scanlinesquestionmark");
+
+  if (scanlinesquestionmark.checked) {
+    scanlines.style.display = "block";
+  } else {
+    scanlines.style.display = "none";
+  }
+}
+function setMasterVolume(value) {
+  globals.volume = value;
+  ui.gain.gain.value = globals.volume;
+  console.log(globals.volume)
+}

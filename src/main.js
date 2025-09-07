@@ -11,6 +11,8 @@ const globals = {
 
   width: (Math.floor(window.innerWidth / 25) + 2) * 2, // remember these lines when changing tileSize
   height: (Math.floor(window.innerHeight / 25) + 3) * 2,
+
+  volume: 1,
 }
 
 const state = {
@@ -28,7 +30,8 @@ const ui = {
   inventory: document.getElementById("inventory"),
   crafting: document.getElementById("crafting"),
   loader: document.getElementById("loader-wrapper"),
-  audio: new window.AudioContext()
+  audio: new window.AudioContext(),
+  gain: null,
 }
 
 let grid = state.grid;
@@ -90,6 +93,12 @@ async function begin() {
 
   updateCamera();
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+  toggleScanlines();
+  initializeGain();
+  setMasterVolume(globals.volume);
+});
 
 function capitalizeFirst(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);

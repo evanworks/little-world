@@ -1,7 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Jersey+10&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Micro+5&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bytesized&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tiny5&display=swap');
 body {
+  background: black;
   cursor: none;
+  animation: crt-flicker 0.12s infinite;
+}
+@keyframes crt-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.995; }
+  75% { opacity: 0.99; }
 }
 
 .overlay {
@@ -18,8 +27,9 @@ body {
       rgba(0, 0, 0, 0.1) 50%,
       rgba(0, 0, 0, 0) 100%);
   background-size: auto 4px;
-  z-index: 1;
+  z-index: 10000000000000000000;
   animation: scan 20s infinite;
+  display: block;
 }
 
 @keyframes scan {
@@ -69,7 +79,7 @@ img {
   width: 50px;
 }
 #title-bg {
-  cursor: url(img/cursor.png), auto;;
+  cursor: url(img/cursor.png), auto;
   background: black;
   z-index: 5;
   width: 100vw;
@@ -305,4 +315,125 @@ u {
   left: 50%;
   top: 45%;
   transform: translate(-50%, -45%);
+}
+#settingsbutton {
+  width: 25px;
+  position: absolute;
+  top: 40px;
+  right: 40px;
+}
+#settings {
+  color: white;
+  background: black;
+  width: 75%;
+  height: 75%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 16px;
+  border: 7.5px solid transparent;
+  border-image: url(img/border-white.png) 35% round;
+  z-index: 10;
+}
+h1 {
+  text-align: center;
+  font-family: "Jersey 10";
+  font-size: 40px;
+  margin: 0px;
+  text-shadow: 0 0 2px white;
+}
+p {
+  font-size: 20px;
+  font-family: "Tiny5", monospace;
+  text-transform: uppercase;
+  display: inline-block;
+  text-shadow: 0 0 2px white;
+}
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; /* three equal columns */
+  gap: 20px; /* space between columns */
+}
+
+.column {
+  padding: 1rem;
+}
+
+.slider {
+  height: 8px;
+  border-radius: 3px;
+  background: #ddd;
+  outline: none;
+  width: 100%;
+}
+
+/* === Track === */
+.slider::-webkit-slider-runnable-track {
+  height: 8px;
+  background: black;
+  border: 3.75px solid transparent;
+  border-image: url(img/border-filled.png) 35% round;
+  cursor: url(img/hand.png), auto;
+}
+.slider::-moz-range-track {
+  height: 8px;
+  background: black;
+  border: 3.75px solid transparent;
+  border-image: url(img/border-filled.png) 35% round;
+  cursor: url(img/cursor.png), auto;
+}
+
+/* === Thumb === */
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border: 2px solid white;
+  cursor: url(img/cursor.png), auto;
+  margin-top: -6px; /* align thumb vertically */
+  border-radius:0px;
+}
+.slider::-moz-range-thumb {
+  width: 8px;
+  height: 16px;
+  background: white;
+  border: 2px solid white;
+  border-radius:0px;
+  cursor: url(img/cursor.png), auto;
+}
+/* Hide the default checkbox */
+.checkbox-container input {
+  display: none;
+}
+
+/* Make the custom box */
+.checkmark {
+  width: 16px;
+  height: 16px;
+  border: 3.75px solid transparent;
+  border-image: url(img/border-filled.png) 35% round;
+  border-radius: 12px;
+  display: inline-block;
+  background-size: cover;
+  background-position: center;
+  transition: all 0.2s ease;
+  image-rendering: pixelated;
+  margin-left: 6px;
+  position: relative;
+  top: 6px;
+  cursor: url(img/cursor.png), auto;
+}
+
+/* Add an image only when checked */
+.checkbox-container input:checked + .checkmark {
+  background-image: url("img/buttons/checked.png"); /* replace with your image */
+}
+#close {
+  width: 25px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
 }
