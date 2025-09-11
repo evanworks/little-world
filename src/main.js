@@ -19,7 +19,7 @@ const state = {
   building: false,
   buildingDirection: "right",
   grid: [],
-  unlockedRecipes: [plank, masonry, flowerpot],
+  unlockedRecipes: [plank, masonry, flowerpot, bench],
 
   playerCoords: null,
   player: null

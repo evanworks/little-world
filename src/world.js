@@ -128,7 +128,7 @@ function probablySpawnPlayerAndBench() {
       if (grid[spawnY][benchX].blocked) {
         benchX = spawnX - 1;
       }
-      createBench(benchX, spawnY);
+      createSource(bench, bench.sources.bench, benchX, spawnY, grid[spawnY][benchX].tile, false);
     } else {
       location.reload();
     } 

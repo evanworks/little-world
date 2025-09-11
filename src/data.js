@@ -158,13 +158,35 @@ const flowerpot = {
   type: 'structure',
   useAction: 'build',
 
-  ingredients: [[flower, 1], [wood, 4]],
+  ingredients: [[flower, 1], [wood, 3]],
   drop: wood,
 
   sources: {
     block: {
       sourceImg: 'res/img/structure/flowerpot/flowerpot.png',
       hitImg: 'res/img/structure/flowerpot/flowerpotHit.png',
+      sourceClass: 'block',
+      hits: 8
+    }
+  }
+}
+const bench = {
+  get item() {return inventory.bench;},
+  set item(val) {inventory.bench = val;},
+  
+  file: 'bench',
+  inventory: 'res/img/structure/bench/benchInv.png',
+
+  type: 'structure',
+  useAction: 'build',
+
+  ingredients: [[wood, 5]],
+  drop: wood,
+
+  sources: {
+    bench: {
+      sourceImg: 'res/img/structure/bench/bench.png',
+      hitImg: 'res/img/structure/bench/benchHit.png',
       sourceClass: 'block',
       hits: 8
     }
@@ -215,6 +237,7 @@ const inventory = {
   plank: 0,
   masonry: 0,
   flowerpot: 0,
+  bench: 0,
 }
 
 const itemMap = {
@@ -225,4 +248,5 @@ const itemMap = {
   plank,
   masonry,
   flowerpot,
+  bench,
 };

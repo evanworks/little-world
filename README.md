@@ -14,10 +14,13 @@ Started as a terrain-generation test, became a weird little survival game
 * Pickaxes and such
 * Make mining two objects on top of each other work
 * Make tile select border show when placing an object on top of another
-* Make benches craftable
-* Remove white line at the bottom of the world
+* Remove black line at the bottom of the world
 
 ## Updates
+
+**Sep 10, 2025 -- 0.0.24**
+
+* craftable benches (press c to open crafting)
 
 **Sep 7, 2025 -- 0.0.23**
 
