@@ -27,16 +27,6 @@ function doStuffMobile() {
   updateCamera();
 }
 
-
-function updateCamera() {
-  const container = document.getElementById('game-container');
-  const playerX = state.player.offsetLeft;
-  const playerY = state.player.offsetTop;
-
-  container.scrollLeft = playerX * globals.zoomScale - container.clientWidth / 2;
-  container.scrollTop = playerY * globals.zoomScale - container.clientHeight / 2;
-}
-
 function arrowButtonsMobile() {
   document.getElementById("mobile-arrows").style.display = "block";
 
@@ -48,7 +38,7 @@ function arrowButtonsMobile() {
       event.preventDefault();
       button.src = `res/img/buttons/arrow${capitalizeFirst(i)}Press.png`;
   
-      playerMovement(`Arrow${capitalizeFirst(i)}`);
+      playerMovement(i);
     });
 
     button.addEventListener("touchend", () => { 
@@ -68,16 +58,7 @@ function functionButtonsMobile() {
     event.preventDefault();
     z.src = `res/img/buttons/zPress.png`;
 
-    if (state.building) {
-      buildMode(state.building, true)
-    } else {
-      if (!chopInterval) {
-        chop();
-        chopInterval = setInterval(chop, 500);
-      }
-      checkForBench();
-      ui.inventory.style.display = "none";
-    }
+    primaryButtonPress();
   });
 
   z.addEventListener("touchend", () => { 
@@ -89,9 +70,7 @@ function functionButtonsMobile() {
     event.preventDefault();
     x.src = `res/img/buttons/xPress.png`;
 
-    ui.crafting.style.display = "none"; 
-    ui.inventory.style.display = "none"; 
-    leaveBuildMode();
+    secondaryButtonPress();
   });
 
   x.addEventListener("touchend", () => { 
@@ -102,7 +81,7 @@ function functionButtonsMobile() {
     event.preventDefault();
     c.src = `res/img/buttons/cPress.png`;
 
-    openInventory();
+    tertiaryButtonPress();
   });
 
   c.addEventListener("touchend", () => { 

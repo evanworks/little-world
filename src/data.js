@@ -1,114 +1,139 @@
 const wood = {
-  get item() {return inventory.wood;},
-  set item(val) {inventory.wood = val;},
-
-  file: 'wood',
-  img: 'res/img/resource/wood/wood.png',
-  inventory: 'res/img/resource/wood/woodInv.png',
-
+  id: 'wood',
+  get item() { return inventory.wood; },
+  set item(value) { inventory.wood = value; },
   type: 'resource',
   useAction: 'drop',
 
-  plainsSpawnChance: 0.1,
-  forestSpawnChance: 0.7,
-  oakSpawnChance: 0.1,
-  deadSpawnChance: 0.03,
+  assets: {
+    pickup: 'res/img/resource/wood/wood.png',
+    inventory: 'res/img/resource/wood/woodInv.png',
+  },
+
+  spawn: {
+    plains: {chance: 0.1, source: "tree"},
+    forest: {chance: 0.7, source: "tree"},
+    dead: {chance: 0.03, source: "dead"},
+  },
 
   sources: {
     tree: {
-      sourceImg: 'res/img/resource/wood/tree.png',
-      hitImg: 'res/img/resource/wood/treeHit.png',
-      sourceClass: 'tree',
-      hits: 4
+      id: 'tree',
+      hits: 4,
+      blocked: true,
+      assets: {
+        idle: 'res/img/resource/wood/tree.png',
+        hit: 'res/img/resource/wood/treeHit.png',
+      }
     },
-    /*oak: {
-      sourceImg: 'res/img/world/oak.png',
-      sourceClass: 'oak',
-      width: 2, height: 2,
-    },*/
     dead: {
-      sourceImg: 'res/img/resource/wood/deadTree.png',
-      hitImg: 'res/img/resource/wood/deadTreeHit.png',
-      sourceClass: 'deadTree',
-      hits: 3
+      id: 'deadTree',
+      hits: 3,
+      blocked: true,
+      assets: {
+        idle: 'res/img/resource/wood/deadTree.png',
+        hit: 'res/img/resource/wood/deadTreeHit.png',
+      }
     }
   }
   
 }
 
 const stone = {
-  get item() {return inventory.stone;},
-  set item(val) {inventory.stone = val;},
-
-  file: 'stone',
-  img: 'res/img/resource/stone/stone.png',
-  inventory: 'res/img/resource/stone/stoneInv.png',
-
+  id: 'stone',
+  get item() { return inventory.stone; },
+  set item(value) { inventory.stone = value; },
   type: 'resource',
   useAction: 'drop',
 
-  spawnChance: 0.05,
+  assets: {
+    pickup: 'res/img/resource/stone/stone.png',
+    inventory: 'res/img/resource/stone/stoneInv.png',
+  },
+
+  spawn: {
+    plains: { chance: 0.05, source: "rock"}
+  },
+
   sources: {
     rock: {
-      sourceImg: 'res/img/resource/stone/rock.png',
-      hitImg: 'res/img/resource/stone/rockHit.png',
-      sourceClass: 'rock',
-      hits: 7
+      id: 'rock',
+      hits: 7,
+      blocked: true,
+      assets: {
+        idle: 'res/img/resource/stone/rock.png',
+        hit: 'res/img/resource/stone/rockHit.png',
+      }
     }
   }
 }
 
 const coral = {
-  get item() {return inventory.coral;},
-  set item(val) {inventory.coral = val;},
-
-  file: 'coral',
-  img: 'res/img/resource/coral/coral.png',
-  inventory: 'res/img/resource/coral/coralInv.png',
-
+  id: 'coral',
+  get item() { return inventory.coral; },
+  set item(value) { inventory.coral = value; },
   type: 'resource',
   useAction: 'drop',
 
-  spawnChance: 0.1,
+  assets: {
+    pickup: 'res/img/resource/coral/coral.png',
+    inventory: 'res/img/resource/coral/coralInv.png',
+  },
+
+  spawn: {
+    beach: { chance: 0.1, source: "coral" }
+  },
+
   sources: {
     coral: {
-      sourceImg: 'res/img/resource/coral/buriedCoral.png',
-      hitImg: 'res/img/resource/coral/buriedCoralHit.png',
-      sourceClass: 'coral',
-      hits: 2
+      id: 'coral',
+      hits: 2,
+      blocked: true,
+      assets: {
+        idle: 'res/img/resource/coral/buriedCoral.png',
+        hit: 'res/img/resource/coral/buriedCoralHit.png',
+      }
     }
   }
 }
 // a yellow daisy
 const flower = {
-  get item() {return inventory.flower;},
-  set item(val) {inventory.flower = val;},
-
-  file: 'flower',
-  img: 'res/img/resource/flower/flower.png',
-  inventory: 'res/img/resource/flower/flowerInv.png',
-
+  id: 'flower',
+  get item() { return inventory.flower; },
+  set item(value) { inventory.flower = value; },
   type: 'resource',
   useAction: 'drop',
-  walkable: true,
 
-  plainsSpawnChance: 0.02,
+  assets: {
+    pickup: 'res/img/resource/flower/flower.png',
+    inventory: 'res/img/resource/flower/flowerInv.png',
+  },
+
+  spawn: {
+    plains: {chance: 0.02, source: "flower" },
+  },
+
   sources: {
-    coral: {
-      sourceImg: 'res/img/resource/flower/flowers.png',
-      hitImg: 'res/img/resource/flower/flowersHit.png',
-      sourceClass: 'coral',
-      hits: 2
+    flower: {
+      id: 'flower',
+      hits: 2,
+      blocked: false,
+      assets: {
+        idle: 'res/img/resource/flower/flowers.png',
+        hit: 'res/img/resource/flower/flowersHit.png',
+      }
     }
   }
 }
 
 const plank = {
+  id: 'plank',
   get item() {return inventory.plank;},
   set item(val) {inventory.plank = val;},
-  
-  file: 'plank',
-  inventory: 'res/img/structure/plank/plankInv.png',
+
+  assets: {
+    inventory: 'res/img/structure/plank/plankInv.png',
+  },
 
   type: 'structure',
   useAction: 'build',
@@ -118,42 +143,49 @@ const plank = {
 
   sources: {
     block: { // idk what to call this?!?
-      sourceImg: 'res/img/structure/plank/block.png',
-      hitImg: 'res/img/structure/plank/blockHit.png',
-      sourceClass: 'block',
-      hits: 7
+      assets: {
+        idle: 'res/img/structure/plank/block.png',
+        hit: 'res/img/structure/plank/blockHit.png',
+      },
+      hits: 7,
+      blocked: true,
     }
   }
 }
 const masonry = {
+  id: 'masonry',
   get item() {return inventory.masonry;},
   set item(val) {inventory.masonry = val;},
-  
-  file: 'masonry',
-  inventory: 'res/img/structure/masonry/masonryInv.png',
+
+  assets: {
+    inventory: 'res/img/structure/masonry/masonryInv.png',
+  },
 
   type: 'structure',
   useAction: 'build',
 
   ingredients: [[stone, 1]],
   drop: stone,
-  walkable: true,
 
   sources: {
     block: {
-      sourceImg: 'res/img/structure/masonry/masonry.png',
-      hitImg: 'res/img/structure/masonry/masonryHit.png',
-      sourceClass: 'block',
-      hits: 11
+      assets: {
+        idle: 'res/img/structure/masonry/masonry.png',
+        hit: 'res/img/structure/masonry/masonryHit.png',
+      },
+      hits: 11,
+      blocked: false,
     }
   }
 }
 const flowerpot = {
+  id: 'flowerpot',
   get item() {return inventory.flowerpot;},
   set item(val) {inventory.flowerpot = val;},
-  
-  file: 'flowerpot',
-  inventory: 'res/img/structure/flowerpot/flowerpotInv.png',
+
+  assets: {
+    inventory: 'res/img/structure/flowerpot/flowerpotInv.png',
+  },
 
   type: 'structure',
   useAction: 'build',
@@ -163,32 +195,36 @@ const flowerpot = {
 
   sources: {
     block: {
-      sourceImg: 'res/img/structure/flowerpot/flowerpot.png',
-      hitImg: 'res/img/structure/flowerpot/flowerpotHit.png',
-      sourceClass: 'block',
-      hits: 8
+      assets: {
+        idle: 'res/img/structure/flowerpot/flowerpot.png',
+        hit: 'res/img/structure/flowerpot/flowerpotHit.png',
+      },
+      hits: 8,
+      blocked: true,
     }
   }
 }
-const bench = {
-  get item() {return inventory.bench;},
-  set item(val) {inventory.bench = val;},
-  
-  file: 'bench',
-  inventory: 'res/img/structure/bench/benchInv.png',
 
+const bench = {
+  id: 'bench',
   type: 'structure',
   useAction: 'build',
 
   ingredients: [[wood, 5]],
   drop: wood,
 
+  assets: {
+    inventory: 'res/img/structure/bench/benchInv.png',
+  },
+
   sources: {
     bench: {
-      sourceImg: 'res/img/structure/bench/bench.png',
-      hitImg: 'res/img/structure/bench/benchHit.png',
-      sourceClass: 'block',
-      hits: 8
+      blocked: true,
+      hits: 8,
+      assets: {
+        idle: 'res/img/structure/bench/bench.png',
+        hit: 'res/img/structure/bench/benchHit.png',
+      }
     }
   }
 }
@@ -204,27 +240,29 @@ const stonePick = {
 */
 
 const grass = {
-  file: 'grass',
+  id: 'grass',
   img: 'res/img/world/grass.png',
+
   sound: 'res/sound/footstep/grass.wav',
   
-  type: 'terrain',
+  blocked: false,
 }
 const sand = {
-  file: 'sand',
+  id: 'sand',
   img: 'res/img/world/sand.png',
+
   sound: 'res/sound/footstep/snow.wav',
 
-  type: 'terrain',
+  blocked: false,
 }
 const water = {
-  file: 'water',
+  id: 'water',
   img: 'res/img/world/water.png',
   feesh: 'res/img/world/feesh.png',
 
   sound: 'res/sound/footstep/grass.wav',
 
-  type: 'terrain',
+  blocked: true,
 }
 
 
@@ -238,6 +276,9 @@ const inventory = {
   masonry: 0,
   flowerpot: 0,
   bench: 0,
+}
+function addItem(item, amount) {
+  inventory[item.id] += amount;
 }
 
 const itemMap = {

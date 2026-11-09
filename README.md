@@ -18,6 +18,11 @@ Started as a terrain-generation test, became a weird little survival game
 
 ## Updates
 
+**Apr 8, 2026 -- 0.0.25**
+
+* as usual, refactored the entire game
+* for some reason the black line is gone :D
+
 **Sep 10, 2025 -- 0.0.24**
 
 * craftable benches (press c to open crafting)

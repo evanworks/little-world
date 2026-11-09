@@ -1,86 +1,159 @@
-function playerMovement(key) {
-  let x = state.playerCoords[0];
-  let y = state.playerCoords[1];
+function playerMovement(direction) {
+  clearBuildTile()
 
+  if (!DIRECTIONS[direction] || !state.playerCoords) return;
+  let moveCoords = addCoords(state.playerCoords, DIRECTIONS[direction]);
+  let moveTile = getTile(moveCoords)
+  if (!moveTile || moveTile.blocked) return;
 
-  if (key === 'ArrowRight' && x < globals.width - 1) x++;
-  else if (key === 'ArrowLeft' && x > 0) x--;
-  else if (key === 'ArrowDown' && y < globals.height - 1) y++;
-  else if (key === 'ArrowUp' && y > 0) y--;
-
-  if (!grid[y][x].blocked) {
-    if (grid[y][x].kind == "resource") {
-      collectResource([x, y]);
-      playSound("res/sound/collect3.wav");
-    } else {
-      playSound(grid[y][x].ground.sound);
-    }
-
-    clearTile();
-
-    grid[y][x].tile.appendChild(state.player);
-    state.playerCoords = [x, y];
-    
-
-    if (state.building) {
-      buildMode(state.building, false);
-    }
+  if (moveTile.occupant && moveTile.occupant.type === "resource") {
+    collectResource(moveTile);
   }
-
+  moveTile.cell.appendChild(state.player);
+  state.playerCoords = moveCoords;
+  if (state.building) {
+    buildMode(state.building, false);
+  }
   updateCamera();
 }
+function updateCamera() {
+  const container = document.getElementById('game-container');
+  if (!state.player) return;
+  const playerX = state.player.offsetLeft;
+  const playerY = state.player.offsetTop;
 
-function collectResource(coords) {
-  let tile = grid[coords[1]][coords[0]];
+  container.scrollLeft = playerX * globals.zoomScale - container.clientWidth / 2;
+  container.scrollTop = playerY * globals.zoomScale - container.clientHeight / 2;
+}
 
-  const el = tile.resourceEl;
+function collectResource(tile) {
+  const el = tile.occupant.el;
   el.remove();
-
-  if (tile.resource) tile.resource.item++;
-  tile.kind = "";
-  tile.resource = undefined;
+  if (tile.occupant.resource) addItem(tile.occupant.resource, 1);
+  tile.occupant = null;
 }
 
 let chopInterval;
 
+const DEFAULT_KEY_BINDINGS = {
+  primary: "z",
+  secondary: "x",
+  tertiary: "c",
+  up: "ArrowUp",
+  down: "ArrowDown",
+  left: "ArrowLeft",
+  right: "ArrowRight",
+};
+
+const keyBindings = loadKeyBindings();
+
+function loadKeyBindings() {
+  try {
+    const saved = JSON.parse(localStorage.getItem("little-world-key-bindings"));
+    return { ...DEFAULT_KEY_BINDINGS, ...(saved || {}) };
+  } catch {
+    return { ...DEFAULT_KEY_BINDINGS };
+  }
+}
+
+function saveKeyBindings() {
+  try {
+    localStorage.setItem("little-world-key-bindings", JSON.stringify(keyBindings));
+  } catch {
+    // Bindings still apply for the current session when storage is unavailable.
+  }
+}
+
+function formatKey(key) {
+  return key.startsWith("Arrow") ? key.slice(5) : key === " " ? "Space" : key.length === 1 ? key.toUpperCase() : key;
+}
+
+function initializeKeyBindings() {
+  for (const action of Object.keys(keyBindings)) {
+    const button = document.getElementById(`bind-${action}`);
+    if (!button) continue;
+
+    button.textContent = formatKey(keyBindings[action]);
+    button.addEventListener("click", () => {
+      button.textContent = "Press a key…";
+      button.classList.add("waiting");
+
+      const rebind = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        document.removeEventListener("keydown", rebind, true);
+        button.classList.remove("waiting");
+
+        if (event.key === "Escape") {
+          button.textContent = formatKey(keyBindings[action]);
+          return;
+        }
+
+        const duplicate = Object.entries(keyBindings).find(([name, key]) => name !== action && key === event.key);
+        if (duplicate) {
+          button.textContent = `${formatKey(duplicate[1])} in use`;
+          setTimeout(() => { button.textContent = formatKey(keyBindings[action]); }, 1000);
+          return;
+        }
+
+        keyBindings[action] = event.key;
+        saveKeyBindings();
+        button.textContent = formatKey(event.key);
+      };
+
+      document.addEventListener("keydown", rebind, true);
+    });
+  }
+}
+
 function doListeners() {
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'z') {
-      if (state.building) {
-        buildMode(state.building, true)
-      } else {
-        if (!chopInterval) {
-          chop();
-          chopInterval = setInterval(chop, 500);
-        }
-        ui.inventory.style.display = "none";
+    if (e.repeat && (e.key === keyBindings.primary || e.key === keyBindings.secondary || e.key === keyBindings.tertiary)) return;
+    if (e.key === keyBindings.primary) {
+      primaryButtonPress();
+    } else if (e.key === keyBindings.secondary) {
+      secondaryButtonPress();
+    } else if (e.key === keyBindings.tertiary) {
+      tertiaryButtonPress();
+    }
+    if (ui.crafting.style.display === "none") {
+      for (const direction of ["up", "down", "left", "right"]) {
+        if (e.key === keyBindings[direction]) playerMovement(direction);
       }
-    } else if (e.key === 'c') {
-      if (state.building) {
-        clearTile();
-        toggleBuildingDirection();
-      } else {
-        checkForBench();
-        console.log(ui.crafting.style.display)
-        if (ui.crafting.style.display == "none") {
-          openInventory();
-        }
-        
-      }
-    } else if (e.key === 'x') {
-      ui.crafting.style.display = "none"; 
-      ui.inventory.style.display = "none"; 
-      leaveBuildMode();
-    } else if (e.key == "ArrowUp" || e.key == "ArrowDown" || e.key == "ArrowRight" || e.key == "ArrowLeft") {
-      if (ui.crafting.style.display == "none") playerMovement(e.key);
     }
   });
 
   document.addEventListener('keyup', (e) => {
-    if (e.key === 'z') {
-      stopChopping();
-    }
+    if (e.key === keyBindings.primary) stopChopping();
   });
+}
+
+function primaryButtonPress() {
+  if (state.building) {
+    buildMode(state.building, true)
+  } else {
+    if (!chopInterval) {
+      chop();
+      chopInterval = setInterval(chop, 500);
+    }
+    ui.inventory.style.display = "none";
+  }
+}
+function secondaryButtonPress() {
+  ui.crafting.style.display = "none";
+  ui.inventory.style.display = "none";
+  leaveBuildMode();
+}
+function tertiaryButtonPress() {
+  if (state.building) {
+    clearBuildTile();
+    toggleBuildingDirection();
+  } else {
+    checkForBench();
+    if (ui.crafting.style.display === "none") {
+      openInventory();
+    }
+  }
 }
 
 function chop() {
@@ -104,13 +177,10 @@ function stopChopping() {
 
 
 function checkForBench() {
-  const adjacentOffsets = [[0,1],[0,-1],[1,0],[-1,0]];
-  
-  for (let offset of adjacentOffsets) {
-    const index = [state.playerCoords[0]-offset[0],state.playerCoords[1]-offset[1]];
-    const tile = grid[index[1]][index[0]];
+  for (const direction of DIRECTION_ORDER) {
+    let tile = getAdjacentTile(direction);
     
-    if (tile && tile.resource == bench) {
+    if (tile?.occupant?.resource === bench) {
       state.player.src = 'res/img/player/player.png';
       state.player.style.marginLeft = `-${globals.tileSize}px`;
       openCrafting();
@@ -121,70 +191,51 @@ function checkForBench() {
 
 function harvestAdjacent() {
   let flip = false;
-  let playDestruction = false;
 
-  const adjacentOffsets = [[0,1],[0,-1],[1,0],[-1,0]];
+  for (const direction of DIRECTION_ORDER) {
+    let tile = getAdjacentTile(direction);
+    if (!tile) continue;
 
-  adjacentOffsets.forEach(offset => {
-    const [px, py] = state.playerCoords;
-    const [ox, oy] = offset;
-    const tx = px - ox;
-    const ty = py - oy;
-
-    let tile;
-
-    if (ty >= 0 && ty < grid.length && tx >= 0 && tx < grid[ty].length) {
-      tile = grid[ty][tx];
-    } else {
-      return;
-    }
-
-    if (!tile) return;
-
-    if (tile.kind == "source") {
-      let resource = tile.resource;
-      if (tile.resource.drop) resource = tile.resource.drop;
-      
-      if (!resource) return;
-
-      if (tile.hits > 1) {
-
-        if (offset[0]==0&&offset[1]==1) { // top
-          tile.resourceEl.style.marginTop = "-8px";
-          setTimeout(() => { tile.resourceEl.style.marginTop = "-6px"; }, 200)
-        }
-        if (offset[0]==0&&offset[1]==-1) { // bottom 
-          tile.resourceEl.style.marginTop = "-4px";
-          setTimeout(() => { tile.resourceEl.style.marginTop = "-6px"; }, 200)
-        }
-        if (offset[0]==1&&offset[1]==0) { // left 
-          tile.resourceEl.style.marginLeft = "-2px";
-          setTimeout(() => { tile.resourceEl.style.marginLeft = "0px"; }, 200)
-        }
-        if (offset[0]==-1&&offset[1]==0) { // right 
-          tile.resourceEl.style.marginLeft = "2px";
-          setTimeout(() => { tile.resourceEl.style.marginLeft = "0px"; }, 200)
-        }
-        tile.resourceEl.src = tile.chosenSource.hitImg;
-        setTimeout(() => { tile.resourceEl.src = tile.chosenSource.sourceImg}, 200)
-        tile.hits--;
-      } else {
-        playDestruction = true;
-
-        // destruction
-        tile.blocked = false;
-        const el = tile.resourceEl;
-        el.remove();
-        drop(tile, resource);
-        tile.hits = undefined;
-      }
-    } else if (tile.kind !== "source" && offset[0]==1 && offset[1]==0) {
+    if (!tile.occupant && direction === "left") {
       flip = true;
     }
+    if (!tile.occupant) continue;
 
-    if (playDestruction) playSound("res/sound/break2.wav");
-    else playSound("res/sound/hit2.wav");
-  });
+    if (tile.occupant.type === "source") {
+      let resource = tile.occupant.resource;
+      if (resource.drop) resource = resource.drop;
+      if (!resource) continue;
+
+      if (tile.occupant.hits > 1) {
+        animateHit(tile.occupant.el, direction)
+        tile.occupant.el.src = tile.occupant.source.assets.hit;
+        setTimeout(() => { tile.occupant.el.src = tile.occupant.source.assets.idle}, 200)
+        tile.occupant.hits--;
+      } else {
+        // destruction
+        // you could even say decimation
+        const el = tile.occupant.el;
+        el.remove();
+        tile.occupant = null;
+        createResource(resource, tile);
+      }
+    }
+  }
 
   return flip;
+}
+const HIT_ANIMATION = {
+  up:    { axis: "marginTop",  hit: "-8px", reset: "-6px" },
+  down:  { axis: "marginTop",  hit: "-4px", reset: "-6px" },
+  left:  { axis: "marginLeft", hit: "-2px", reset: "0px"  },
+  right: { axis: "marginLeft", hit: "2px",  reset: "0px"  },
+};
+function animateHit(element, direction) {
+  const config = HIT_ANIMATION[direction];
+  if (!config) return;
+
+  element.style[config.axis] = config.hit;
+  setTimeout(() => {
+    element.style[config.axis] = config.reset;
+  }, 200)
 }

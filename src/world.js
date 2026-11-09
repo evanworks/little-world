@@ -1,6 +1,5 @@
 const plainsIndices = [];
 
-function seed() {console.log(globals.seed);}
 function mapSeed() {
   function mulberry32(a) {
     return function() {
@@ -16,7 +15,7 @@ function mapSeed() {
   globals.noise2 = new Noise(globals.random());
 }
 
-async function createGrid(width, height, imgUrl) {
+async function createGrid(width, height) {
   ui.container.style.display = 'grid';
   ui.container.style.gridTemplateColumns = `repeat(${width}, ${globals.tileSize}px)`;
   ui.container.style.width = `${width * globals.tileSize}px`;
@@ -27,89 +26,106 @@ async function createGrid(width, height, imgUrl) {
   for (let y = 0; y < height; y++) {
     grid.push([]);
     for (let x = 0; x < width; x++) {
+
       grid[y].push({
+        ground: null,
+        cell: null,
+        groundEl: null,
         blocked: false,
-        ground: undefined,
-        tile: undefined,
-        resource: undefined,
-        chosenSource: undefined,
-        resourceEl: undefined,
-        hits: undefined,
-        kind: "",
+
+        occupant: null
       });
-      if (globals.doAnim) { await new Promise(resolve => setTimeout(resolve, 0)) }
 
       const elevation = globals.noise1.perlin2(x * scale, y * scale);
-
+      const elevation2 = globals.noise2.perlin2(x * scale, y * scale);
       const cell = document.createElement('div');
-      const img = document.createElement('img');
-      img.classList.add('tile');
-      img.src = imgUrl;
 
-      grid[y][x].blocked = false;
+      const tile = getTile(x, y);
+      tile.cell = cell;
+
+      let ground;
 
       if (elevation < -0.3) {
-        img.src = water.img;
-        if (globals.random() > 0.97) img.src = water.feesh;
-        grid[y][x].ground = water;
-        grid[y][x].blocked = true;
+        //if (globals.random() > 0.97) img.src = water.feesh;
+        ground = createGround(tile, water);
       } else if (elevation < -0.2) {
-        img.src = sand.img;
-        grid[y][x].ground = sand;
-        maybeSpawn(x, y, cell, coral);
+        ground = createGround(tile, sand);
+        maybeSpawn(tile, coral, "beach", elevation2);
       } else if (elevation < 0.2) {
-        img.src = grass.img;
-        grid[y][x].ground = grass;
-        maybeSpawn(x, y, cell, stone);
-        maybeSpawn(x, y, cell, wood, undefined, wood.plainsSpawnChance);
-        maybeSpawn(x, y, cell, flower, undefined, flower.plainsSpawnChance);
-
+        ground = createGround(tile, grass);
+        maybeSpawn(tile, stone, "plains", elevation2);
+        maybeSpawn(tile, wood, "plains", elevation2);
+        maybeSpawn(tile, flower, "plains", elevation2);
         if (x > 0 && y > 0 && x < width - 3 && y < height - 3) { 
           plainsIndices.push([y,x]);
         }
       } else if (elevation < 1) {
-        img.src = grass.img;
-        grid[y][x].ground = grass;
-        maybeSpawn(x, y, cell, wood, wood.sources.dead, wood.deadSpawnChance);
-        maybeSpawn(x, y, cell, wood, undefined, wood.forestSpawnChance);
+        ground = createGround(tile, grass);
+        maybeSpawn(tile, wood, "dead", elevation2);
+        maybeSpawn(tile, wood, "forest", elevation2);
       }
 
-      grid[y][x].groundEl = img;
-      grid[y][x].tile = cell;
-
-      cell.appendChild(img)
-      ui.container.appendChild(cell)
+      tile.groundEl = ground;
+      cell.appendChild(ground);
+      ui.container.appendChild(cell);
 
       count++;
-      ui.loader.children[0].children[0].style.width = (count / globals.width * globals.height) / 100 + "px";
-      ui.loader.children[1].innerHTML = ((count / globals.width * globals.height) / 100).toFixed(2) + "%";
+      const progress = count / (width * height);
+      ui.loader.children[0].children[0].style.width = `${progress * 100}%`;
+      ui.loader.children[1].innerHTML = `${(progress * 100).toFixed(0)}%`;
     } 
   }
 }
+function createGround(tile, ground) {
+  tile.ground = ground;
+  tile.blocked = ground.blocked;
+  const img = document.createElement('img');
+  img.classList.add('tile');
 
-function maybeSpawn(x, y, cell, resource, source = Object.entries(resource.sources)[0][1], chance = resource.spawnChance) {
-  const scale = 0.1;
-  const elevation = globals.noise2.perlin2(x * scale, y * scale);
+  img.src = ground.img;
+  if (ground.id === "water" && globals.random() > 0.97) {
+    img.src = ground.feesh;
+  }
+  return img;
+}
 
-  if (elevation < chance && globals.random() < chance && !grid[y][x].blocked) {
-    createSource(resource, source, x, y, cell, resource.walkable);
+function maybeSpawn(tile, resource, spawn, elevation) {
+  const rule = resource.spawn?.[spawn];
+  if (!rule) return;
+  const source = resource.sources[rule.source];
+  if (elevation < rule.chance && globals.random() < rule.chance && !tile.blocked && !tile.occupant) {
+    createSource(resource, source, tile);
   }
 }
 
-function createSource(resource, source, x, y, cell, walkable) {
-  const poiimg = document.createElement('img');
-  poiimg.classList.add('source');
-  poiimg.src = source.sourceImg;
-  poiimg.id = resource.file;
+function createSource(resource, source, tile) {
+  const img = document.createElement('img');
+  img.src = source.assets.idle;
+  img.classList.add('source');
+  tile.cell.insertBefore(img, tile.cell.lastChild);
 
-  cell.insertBefore(poiimg, cell.lastChild);
+  tile.occupant = {
+    type: "source",
+    resource,
+    source,
+    el: img,
+    hits: source.hits,
+  }
+  tile.blocked = source.blocked;
+}
 
-  grid[y][x].resource = resource;
-  grid[y][x].resourceEl = poiimg;
-  grid[y][x].kind = "source";
-  if (!walkable) grid[y][x].blocked = true;
-  grid[y][x].hits = source.hits;
-  grid[y][x].chosenSource = source;
+function createResource(resource, tile) {
+  const img = document.createElement('img');
+  img.src = resource.assets.pickup;
+  img.classList.add('resource');
+  tile.cell.insertBefore(img, tile.cell.lastChild);
+
+  tile.occupant = {
+    type: "resource",
+    resource,
+    el: img,
+  }
+  tile.blocked = false;
 }
 
 function probablySpawnPlayerAndBench() {
@@ -119,24 +135,17 @@ function probablySpawnPlayerAndBench() {
 
     let spawnX = spawn[1];
     let spawnY = spawn[0];
-    
+
     state.player = createPlayer(spawnX, spawnY);
 
-    // bench
-    let benchX = spawnX + 1;
-    if (grid[spawnY][benchX]) {
-      if (grid[spawnY][benchX].blocked) {
-        benchX = spawnX - 1;
+    for (let direction of DIRECTION_ORDER) {
+      let tile = getAdjacentTile(direction)
+      if (tile && !tile.blocked && !tile.occupant) {
+        createSource(bench, bench.sources.bench, getAdjacentTile(direction));
+        return;
       }
-      createSource(bench, bench.sources.bench, benchX, spawnY, grid[spawnY][benchX].tile, false);
-    } else {
-      location.reload();
-    } 
+    }
   } else {
-    // fail "safe"
-    console.warn("uh ohhhhhh");
-    let [spawnX, spawnY] = plainsIndices[Math.floor(globals.random() * grid.length)];
-    state.player = createPlayer(spawnX, spawnY);
-    createBench(spawnX + 1, spawnY);
+    alert("what")
   }
 }

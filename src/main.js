@@ -1,5 +1,4 @@
 const globals = {
-  doAnim: false,
   dev: true,
   zoomScale: 1,
 
@@ -9,11 +8,10 @@ const globals = {
   noise2: 0.5,
   tileSize: 25,
 
-  width: (Math.floor(window.innerWidth / 25) + 2) * 2, // remember these lines when changing tileSize
-  height: (Math.floor(window.innerHeight / 25) + 3) * 2,
-
   volume: 1,
 }
+globals.width =  (Math.floor(window.innerWidth / globals.tileSize) + 2) * 2;
+globals.height = (Math.floor(window.innerHeight / globals.tileSize) + 3) * 2;
 
 const state = {
   building: false,
@@ -36,39 +34,33 @@ const ui = {
 
 let grid = state.grid;
 
+// helper directions
+const DIRECTIONS = {
+  up: [0, -1],
+  down: [0, 1],
+  left: [-1, 0],
+  right: [1, 0],
+}
+const DIRECTION_ORDER = ["right", "down", "left", "up"];
+
 function createPlayer(x, y) {
+  const tile = getTile(x, y);
+  if (!tile) return null;
+
   const player = document.createElement('img');
   player.classList.add('player');
   player.src = 'res/img/player/player.png';
 
-  if (grid[y][x].resourceEl) {
-    grid[y][x].resourceEl.remove();
-    grid[y][x].blocked = false;
+  if (tile.occupant) {
+    tile.occupant.el.remove();
+    tile.occupant = null;
+    tile.blocked = tile.ground.blocked;
   }
 
-  const tile = grid[y][x].tile;
-  tile.appendChild(player);
+  tile.cell.appendChild(player);
   state.playerCoords = [x, y];
 
   return player;
-}
-function createBench(x, y) {
-  const bench = document.createElement('img');
-  bench.classList.add('bench');
-  bench.src = 'res/img/world/bench.png';
-
-  const tile = grid[y][x].tile;
-  tile.appendChild(bench);
-
-  if (grid[y][x].resourceEl) {
-    grid[y][x].resourceEl.remove();
-    grid[y][x].blocked = false;
-  }
-
-  grid[y][x].blocked = true;
-  grid[y][x].kind = "bench";
-
-  return bench;
 }
 
 async function begin() {
@@ -76,11 +68,9 @@ async function begin() {
 
   document.getElementById("title").style.display = "none";
   ui.loader.style.display = "block";
-  console.log("hey")
-  
-  await createGrid(globals.width, globals.height, 'res/img/world/grass.png');
+  await createGrid(globals.width, globals.height);
 
-  if (globals.dev == "very true") document.getElementById("debug").style.display = "block";
+  if (globals.dev === "very true") document.getElementById("debug").style.display = "block";
 
   probablySpawnPlayerAndBench()
 
@@ -95,6 +85,7 @@ async function begin() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  initializeKeyBindings();
   toggleScanlines();
   initializeGain();
   setMasterVolume(globals.volume);
@@ -127,14 +118,14 @@ document.addEventListener('keydown', (e) => {
 });
 
 function debug(are) {
-  if (are == "more") {
+  if (are === "more") {
     let resource = prompt("please enter resource name");
     if (itemMap[resource]) {
       let amount = prompt("are?");
       itemMap[resource].item += parseInt(amount);
       alert("you're welcome");
     }
-  } else if (are == "build") {
+  } else if (are === "build") {
     buildMode(plank, false);
   }
 }

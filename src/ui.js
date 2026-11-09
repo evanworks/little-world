@@ -6,10 +6,10 @@
 function openInventory() {
   const actualInventory = document.getElementById("centered");
 
-  ui.crafting.style.display = "none"; 
+  ui.crafting.style.display = "none";
 
-  if (ui.inventory.style.display == 'none') ui.inventory.style.display = "block"; 
-  else ui.inventory.style.display = "none"; 
+  if (ui.inventory.style.display == 'none') ui.inventory.style.display = "block";
+  else ui.inventory.style.display = "none";
 
   actualInventory.innerHTML = "";
 
@@ -25,7 +25,7 @@ function openInventory() {
 
     const img = document.createElement("img");
     img.classList.add("inventoryImg");
-    img.src = itemMap[key].inventory;
+    img.src = itemMap[key].assets.inventory;
 
     const num = document.createElement("div");
     num.classList.add("inventoryNum");
@@ -42,19 +42,16 @@ function openInventory() {
   }
 }
 
-function openCrafting() {
-  if (ui.crafting.style.display == 'none') { 
-    ui.crafting.style.display = "block"; 
-  } else { 
-    ui.crafting.style.display = "none"; 
+function openCrafting(toggle = true) {
+  if (toggle) {
+    ui.crafting.style.display = ui.crafting.style.display === 'none' ? "block" : "none";
   }
 
   let wrapper = ui.crafting.children[0];
 
   wrapper.innerHTML = "";
-  for (i in state.unlockedRecipes) {
-    let item = state.unlockedRecipes[i];
-    
+  for (const item of state.unlockedRecipes) {
+
     const idk = document.createElement('div');
     idk.classList.add("inventoryContainer");
     idk.classList.add("recipe");
@@ -62,26 +59,25 @@ function openCrafting() {
 
     const img = document.createElement('img');
     img.classList.add("inventoryImg");
-    img.src = item.inventory;
+    img.src = item.assets.inventory;
 
     const resources = document.createElement('div');
     resources.classList.add('resources');
-    for (j in item.ingredients) {
-      let resourceInQuestion = item.ingredients[j][0];
+    for (const [resourceInQuestion, amount] of item.ingredients) {
 
       const resource = document.createElement('div');
       resource.classList.add('resourceAmount');
 
       const resourceImg = document.createElement('img');
       resourceImg.classList.add('necessaryResource');
-      resourceImg.src = resourceInQuestion.img;
+      resourceImg.src = resourceInQuestion.assets.pickup;
 
       const resourceTxt = document.createElement('span');
-      if (resourceInQuestion.item < item.ingredients[j][1]) {
+      if (resourceInQuestion.item < amount) {
         resourceTxt.style.color = "red";
-        resourceTxt.innerHTML = resourceInQuestion.item + "/" + item.ingredients[j][1];
+        resourceTxt.innerHTML = resourceInQuestion.item + "/" + amount;
       } else {
-        resourceTxt.innerHTML = item.ingredients[j][1];
+        resourceTxt.innerHTML = amount;
       }
 
       resource.appendChild(resourceImg);
@@ -121,5 +117,5 @@ function toggleScanlines() {
 function setMasterVolume(value) {
   globals.volume = value;
   ui.gain.gain.value = globals.volume;
-  console.log(globals.volume)
+
 }
